@@ -27,8 +27,6 @@ import 'package:share/share.dart';
 import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class SearchbarProject extends StatefulWidget {
-
-
   @override
   SearchbarProjectState createState() => SearchbarProjectState();
 }
@@ -71,8 +69,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
   final TextEditingController AmountController = new TextEditingController();
   String _amount;
   searchsendreceivedpojo searchpojo;
-  List<searchsendreceivedpojo> searchproductListing = new List<
-      searchsendreceivedpojo>();
+  List<searchsendreceivedpojo> searchproductListing =
+      new List<searchsendreceivedpojo>();
   projectlisting listing;
   var imageslist_length;
   String vallike;
@@ -119,8 +117,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
 
   void getCommision() async {
     var jsonResponse = null;
-    var response = await http.get(
-        Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    var response = await http
+        .get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       valcommision = response.body;
@@ -179,8 +177,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
       if (val == null || val == "") {
         activeLanguage = "English";
         print("Login : " + activeLanguage.toString());
-      }
-      else {
+      } else {
         activeLanguage = val;
         print("Login Langauge: " + activeLanguage.toString());
       }
@@ -198,8 +195,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
     };
     print("user: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(
-        Network.BaseApi + Network.projectListing, body: data);
+    http.Response response =
+        await http.post(Network.BaseApi + Network.projectListing, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       val = response.body;
@@ -219,21 +216,107 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 storelist_length = null;
                 resultvalue = false;
               });
-            }
-            else {
+            } else {
               resultvalue = true;
               print("SSSS");
               storelist_length = listing.projectData;
             }
           });
-        }
-        else {
+        } else {
           errorDialog(listing.message);
         }
       }
     } else {
       errorDialog(jsonDecode(val)["message"]);
     }
+  }
+
+
+   _modalBottomSheetMenu() {
+   return showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(00.0),
+        ),
+        context: context,
+        builder: (builder) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Container(
+                height: 300, //could change this to Color(0xFF737373),
+                child: Column(
+                  children: [
+                    showkeyboardProjectname == true
+                        ? Container(
+                      color: Colors.white54,
+                      child: VirtualKeyboard(
+                          height: 250,
+                          textColor: Colors.black,
+                          textController: _searchQuery,
+
+                          defaultLayouts: [
+                            // VirtualKeyboardDefaultLayouts.English,
+                            VirtualKeyboardDefaultLayouts.Arabic
+                          ],
+                          //reverseLayout :true,
+                          type: isNumericMode
+                              ? VirtualKeyboardType.Numeric
+                              : VirtualKeyboardType.Alphanumeric,
+                          onKeyPress: _onKeyPress),
+                    )
+                        : Container(),
+                    GestureDetector(
+                      onTap: ()
+                      {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal * 20,
+                        margin: EdgeInsets.only(
+                            right: SizeConfig
+                                .blockSizeHorizontal *
+                                3),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(
+                            right: SizeConfig
+                                .blockSizeHorizontal *
+                                2,
+                            left: SizeConfig
+                                .blockSizeHorizontal *
+                                2,
+                            bottom: SizeConfig
+                                .blockSizeHorizontal *
+                                2,
+                            top: SizeConfig
+                                .blockSizeHorizontal *
+                                2),
+                        decoration: BoxDecoration(
+                            color: AppColors
+                                .whiteColor,
+                            borderRadius:
+                            BorderRadius
+                                .circular(20),
+                            border: Border.all(
+                                color: AppColors
+                                    .black)),
+                        child: Text(
+                          "Done",
+                          textAlign:
+                          TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color:
+                              AppColors.black,
+                              fontSize: 9,
+                              fontWeight:
+                              FontWeight.bold,
+                              fontFamily:
+                              'Poppins-Regular'),
+                        ),
+                      ),
+                    )
+                  ],
+                ));
+          });
+        });
   }
 
   void errorDialog(String text) {
@@ -297,7 +380,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -310,1465 +392,1288 @@ class SearchbarProjectState extends State<SearchbarProject> {
         body: Container(
           height: double.infinity,
           color: AppColors.shadow,
-          child:
-          Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              storelist_length != null ?
-              Expanded(
-                child: ListView.builder(
-                    itemCount: storelist_length.length == null
-                        ? 0
-                        : storelist_length.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      imageslist_length = listing.projectData
-                          .elementAt(index)
-                          .projectImages;
-                      double amount = double.parse(listing.projectData
-                          .elementAt(index)
-                          .totalcollectedamount
-                          .toString()) /
-                          double.parse(listing.projectData
-                              .elementAt(index)
-                              .budget
-                              .toString()) * 100;
-                      amoun = amount.toInt();
-                      if (!listing.projectData
-                          .elementAt(index)
-                          .profilePic
-                          .startsWith("https://")) {
-                        image = Network.BaseApiprofile + listing.projectData
-                            .elementAt(index)
-                            .profilePic;
-                      }
-                      else {
-                        image = listing.projectData
-                            .elementAt(index)
-                            .profilePic;
-                      }
-                      return Container(
-                        margin: EdgeInsets.only(
-                            bottom: SizeConfig.blockSizeVertical * 2),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              color: Colors.grey.withOpacity(0.2),
-                              width: 1,
-                            ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(5.0),
-                            margin: EdgeInsets.only(
-                                bottom: SizeConfig.blockSizeVertical * 2,
-                                top: SizeConfig.blockSizeVertical * 2),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTapDown: (TapDownDetails details) {
-                                    _tapDownPosition =
-                                        details.globalPosition;
-                                  },
-                                  onTap: () {
-                                    listing.projectData
-                                        .elementAt(index)
-                                        .userId
-                                        .toString() == userid
-                                        ? _showEditPopupMenu(index)
-                                        :
-                                    _showPopupMenu(index);
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.topRight,
-                                    margin: EdgeInsets.only(
-                                        right: SizeConfig
-                                            .blockSizeHorizontal *
-                                            2),
-                                    child: Image.asset(
-                                        "assets/images/menudot.png",
-                                        height: 15,
-                                        width: 20),
+              storelist_length != null
+                  ? Expanded(
+                      child: ListView.builder(
+                          itemCount: storelist_length.length == null
+                              ? 0
+                              : storelist_length.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            imageslist_length = listing.projectData
+                                .elementAt(index)
+                                .projectImages;
+                            double amount = double.parse(listing.projectData
+                                    .elementAt(index)
+                                    .totalcollectedamount
+                                    .toString()) /
+                                double.parse(listing.projectData
+                                    .elementAt(index)
+                                    .budget
+                                    .toString()) *
+                                100;
+                            amoun = amount.toInt();
+                            if (!listing.projectData
+                                .elementAt(index)
+                                .profilePic
+                                .startsWith("https://")) {
+                              image = Network.BaseApiprofile +
+                                  listing.projectData
+                                      .elementAt(index)
+                                      .profilePic;
+                            } else {
+                              image = listing.projectData
+                                  .elementAt(index)
+                                  .profilePic;
+                            }
+                            return Container(
+                              margin: EdgeInsets.only(
+                                  bottom: SizeConfig.blockSizeVertical * 2),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    width: 1,
                                   ),
                                 ),
-                                Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  children: [
-                                    listing.projectData
-                                        .elementAt(index)
-                                        .profilePic ==
-                                        null ||
-                                        listing.projectData
-                                            .elementAt(index)
-                                            .profilePic ==
-                                            ""
-                                        ? GestureDetector(
-                                      onTap: () {
-                                        callNext(
-                                            viewdetail_profile(
-                                                data: listing
-                                                    .projectData
-                                                    .elementAt(
-                                                    index)
-                                                    .userId
-                                                    .toString()
-                                            ), context);
-                                      },
-                                      child: Container(
-                                          height: SizeConfig
-                                              .blockSizeVertical *
-                                              9,
-                                          width: SizeConfig
-                                              .blockSizeVertical *
-                                              9,
-                                          alignment:
-                                          Alignment.center,
-                                          margin: EdgeInsets.only(
-                                              top: SizeConfig
-                                                  .blockSizeVertical *
-                                                  2,
-                                              bottom: SizeConfig
-                                                  .blockSizeVertical *
-                                                  1,
-                                              right: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1,
-                                              left: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  1),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              width: 1,
-                                              color: AppColors
-                                                  .themecolor,
-                                              style: BorderStyle.solid,
-                                            ),
-                                            image:
-                                            new DecorationImage(
-                                              image: new AssetImage(
-                                                  "assets/images/account_circle.png"),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          )),
-                                    )
-                                        : GestureDetector(
-                                      onTap: () {
-                                        callNext(
-                                            viewdetail_profile(
-                                                data: listing.projectData
-                                                    .elementAt(index)
-                                                    .userId
-                                                    .toString()
-                                            ), context);
-                                      },
-                                      child: Container(
-                                        height: SizeConfig.blockSizeVertical *
-                                            9,
-                                        width: SizeConfig.blockSizeVertical *
-                                            9,
-                                        alignment: Alignment.center,
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig
-                                                .blockSizeVertical *
-                                                2,
-                                            bottom: SizeConfig
-                                                .blockSizeVertical *
-                                                1,
-                                            right: SizeConfig
-                                                .blockSizeHorizontal * 1,
-                                            left: SizeConfig
-                                                .blockSizeHorizontal *
-                                                1),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              width: 1,
-                                              color: AppColors
-                                                  .themecolor,
-                                              style: BorderStyle.solid,
-                                            ),
-                                            image: DecorationImage(
-                                                image: NetworkImage(image),
-                                                fit: BoxFit.fill)),
-                                      ),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                callNext(
-                                                    viewdetail_profile(
-                                                        data: listing
-                                                            .projectData
-                                                            .elementAt(index)
-                                                            .userId
-                                                            .toString()
-                                                    ), context);
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        2),
-                                                width: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    31,
-                                                padding: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                ),
-                                                child: Text(
-                                                  listing.projectData
+                                child: Container(
+                                  padding: EdgeInsets.all(5.0),
+                                  margin: EdgeInsets.only(
+                                      bottom: SizeConfig.blockSizeVertical * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTapDown: (TapDownDetails details) {
+                                          _tapDownPosition =
+                                              details.globalPosition;
+                                        },
+                                        onTap: () {
+                                          listing.projectData
                                                       .elementAt(index)
-                                                      .fullName,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: AppColors
-                                                          .themecolor,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ),
-                                            ),
-                                            listing.projectData
-                                                .elementAt(index)
-                                                .userId
-                                                .toString() == userid ?
-                                            Container() :
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: Container(
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        2,
-                                                    left: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1),
-                                                padding: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                ),
-                                                child: Text(
-                                                  StringConstant.follow,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: AppColors
-                                                          .darkgreen,
-                                                      fontSize: 9,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .normal,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      2,
-                                                  left: SizeConfig
+                                                      .userId
+                                                      .toString() ==
+                                                  userid
+                                              ? _showEditPopupMenu(index)
+                                              : _showPopupMenu(index);
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.topRight,
+                                          margin: EdgeInsets.only(
+                                              right: SizeConfig
                                                       .blockSizeHorizontal *
-                                                      3),
-                                              alignment:
-                                              Alignment.topRight,
-                                              padding: EdgeInsets.only(
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      2,
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  bottom: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      2,
-                                                  top: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      2),
-                                              decoration: BoxDecoration(
-                                                  color: AppColors
-                                                      .whiteColor,
-                                                  borderRadius:
-                                                  BorderRadius
-                                                      .circular(20),
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .purple)),
-                                              child: Text(
-                                                listing.projectData
-                                                    .elementAt(index)
-                                                    .status
-                                                    .toUpperCase(),
-                                                textAlign:
-                                                TextAlign.center,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color:
-                                                    AppColors.purple,
-                                                    fontSize: 9,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
-
-                                            listing.projectData
-                                                .elementAt(index)
-                                                .userId
-                                                .toString() != userid ?
-                                            listing.projectData
-                                                .elementAt(index)
-                                                .status == "pending" ?
-                                            GestureDetector(
-                                              onTap: () {
-                                                SharedUtils.readTerms("Terms")
-                                                    .then((result) {
-                                                  if (result != null) {
-                                                    if (result) {
-                                                      showDialog(
-                                                        context: context,
-                                                        child: Dialog(
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius
-                                                                .circular(10.0),
-                                                          ),
-                                                          backgroundColor: AppColors
-                                                              .whiteColor,
-                                                          child: new Container(
-                                                            margin: EdgeInsets
-                                                                .all(5),
-                                                            width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                                80,
-                                                            height: SizeConfig
+                                                  2),
+                                          child: Image.asset(
+                                              "assets/images/menudot.png",
+                                              height: 15,
+                                              width: 20),
+                                        ),
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          listing.projectData
+                                                          .elementAt(index)
+                                                          .profilePic ==
+                                                      null ||
+                                                  listing.projectData
+                                                          .elementAt(index)
+                                                          .profilePic ==
+                                                      ""
+                                              ? GestureDetector(
+                                                  onTap: () {
+                                                    callNext(
+                                                        viewdetail_profile(
+                                                            data: listing
+                                                                .projectData
+                                                                .elementAt(
+                                                                    index)
+                                                                .userId
+                                                                .toString()),
+                                                        context);
+                                                  },
+                                                  child: Container(
+                                                      height: SizeConfig
+                                                              .blockSizeVertical *
+                                                          9,
+                                                      width: SizeConfig
+                                                              .blockSizeVertical *
+                                                          9,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              2,
+                                                          bottom: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              1,
+                                                          right: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              1,
+                                                          left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              1),
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          width: 1,
+                                                          color: AppColors
+                                                              .themecolor,
+                                                          style:
+                                                              BorderStyle.solid,
+                                                        ),
+                                                        image:
+                                                            new DecorationImage(
+                                                          image: new AssetImage(
+                                                              "assets/images/account_circle.png"),
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      )),
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    callNext(
+                                                        viewdetail_profile(
+                                                            data: listing
+                                                                .projectData
+                                                                .elementAt(
+                                                                    index)
+                                                                .userId
+                                                                .toString()),
+                                                        context);
+                                                  },
+                                                  child: Container(
+                                                    height: SizeConfig
+                                                            .blockSizeVertical *
+                                                        9,
+                                                    width: SizeConfig
+                                                            .blockSizeVertical *
+                                                        9,
+                                                    alignment: Alignment.center,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
                                                                 .blockSizeVertical *
-                                                                40,
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment
-                                                                  .start,
-                                                              crossAxisAlignment: CrossAxisAlignment
-                                                                  .center,
-                                                              children: [
-                                                                Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                      top: 10,
-                                                                      left: 10,
-                                                                      right: 10),
-                                                                  color: AppColors
-                                                                      .whiteColor,
-                                                                  alignment: Alignment
-                                                                      .center,
-                                                                  child: Text(
-                                                                    'confirmation'
-                                                                        .tr,
-                                                                    style: TextStyle(
-                                                                        fontSize: 14.0,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight: FontWeight
-                                                                            .bold),
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: SizeConfig
-                                                                      .blockSizeVertical *
-                                                                      10,
-                                                                  width: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      25,
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                    left: SizeConfig
-                                                                        .blockSizeHorizontal *
-                                                                        5,
-                                                                    right: SizeConfig
-                                                                        .blockSizeHorizontal *
-                                                                        5,
-                                                                    top: SizeConfig
+                                                            2,
+                                                        bottom: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          width: 1,
+                                                          color: AppColors
+                                                              .themecolor,
+                                                          style:
+                                                              BorderStyle.solid,
+                                                        ),
+                                                        image: DecorationImage(
+                                                            image: NetworkImage(
+                                                                image),
+                                                            fit: BoxFit.fill)),
+                                                  ),
+                                                ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      callNext(
+                                                          viewdetail_profile(
+                                                              data: listing
+                                                                  .projectData
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .userId
+                                                                  .toString()),
+                                                          context);
+                                                    },
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              2),
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          31,
+                                                      padding: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                      ),
+                                                      child: Text(
+                                                        listing.projectData
+                                                            .elementAt(index)
+                                                            .fullName,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: AppColors
+                                                                .themecolor,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Poppins-Regular'),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  listing.projectData
+                                                              .elementAt(index)
+                                                              .userId
+                                                              .toString() ==
+                                                          userid
+                                                      ? Container()
+                                                      : GestureDetector(
+                                                          onTap: () {},
+                                                          child: Container(
+                                                            margin: EdgeInsets.only(
+                                                                top: SizeConfig
                                                                         .blockSizeVertical *
-                                                                        2,),
-                                                                  decoration: BoxDecoration(
-                                                                    image: new DecorationImage(
-                                                                      image: new AssetImage(
-                                                                          "assets/images/caution.png"),
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: SizeConfig
+                                                                    2,
+                                                                left: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    1),
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              top: SizeConfig
                                                                       .blockSizeVertical *
-                                                                      9,
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                      top: 10,
-                                                                      left: 10,
-                                                                      right: 10),
+                                                                  1,
+                                                            ),
+                                                            child: Text(
+                                                              StringConstant
+                                                                  .follow,
+                                                              style: TextStyle(
+                                                                  letterSpacing:
+                                                                      1.0,
                                                                   color: AppColors
-                                                                      .whiteColor,
-                                                                  alignment: Alignment
-                                                                      .center,
-                                                                  child: Text(
-                                                                    'paymentalert'
-                                                                        .tr,
-                                                                    style: TextStyle(
-                                                                        fontSize: 12.0,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight: FontWeight
-                                                                            .bold),
-                                                                  ),
-                                                                ),
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    Navigator
-                                                                        .of(
-                                                                        context)
-                                                                        .pop();
-                                                                    setState(() {
-                                                                      Widget
-                                                                      cancelButton =
-                                                                      FlatButton(
-                                                                        child: Text(
-                                                                            'cancel'
-                                                                                .tr),
-                                                                        onPressed: () {
-                                                                          Navigator
-                                                                              .pop(
-                                                                              context);
-                                                                          setState(() {
-                                                                            AmountController
-                                                                                .text =
-                                                                            "";
-                                                                          });
-                                                                        },
-                                                                      );
-                                                                      Widget continueButton =
-                                                                      FlatButton(
-                                                                        child: Text(
-                                                                            'continue'
-                                                                                .tr),
-                                                                        onPressed: () async {
-                                                                          setState(() {
-                                                                            if (_formmainKey
-                                                                                .currentState
-                                                                                .validate()) {
-                                                                              Payamount(
-                                                                                  listing
-                                                                                      .projectData
-                                                                                      .elementAt(
-                                                                                      index)
-                                                                                      .id
-                                                                                      .toString(),
-                                                                                  AmountController
-                                                                                      .text,
-                                                                                  totalamount,
-                                                                                  userid);
-                                                                            }
-                                                                          });
-                                                                        },
-                                                                      );
-                                                                      // set up the AlertDialog
-                                                                      AlertDialog
-                                                                      alert =
-                                                                      AlertDialog(
-                                                                        title: Text(
-                                                                            'paynow'
-                                                                                .tr),
-                                                                        // content: Text("Are you sure you want to Pay this project?"),
-                                                                        content:
-                                                                        new Container(
-                                                                            width: SizeConfig
-                                                                                .blockSizeHorizontal *
-                                                                                80,
-                                                                            height: SizeConfig
-                                                                                .blockSizeVertical *
-                                                                                15,
-                                                                            child:
-                                                                            new Form(
-                                                                                key: _formmainKey,
-                                                                                child:
-                                                                                Column(
-                                                                                  children: [
-                                                                                    TextFormField(
-                                                                                      autofocus:
-                                                                                      false,
-                                                                                      focusNode:
-                                                                                      AmountFocus,
-                                                                                      controller:
-                                                                                      AmountController,
-                                                                                      textInputAction:
-                                                                                      TextInputAction
-                                                                                          .next,
-                                                                                      keyboardType:
-                                                                                      TextInputType
-                                                                                          .number,
-                                                                                      onChanged: (
-                                                                                          text) {
-                                                                                        setState(() {
-                                                                                          onchangeval =
-                                                                                              text;
-                                                                                          if (onchangeval ==
-                                                                                              listing
-                                                                                                  .projectData
-                                                                                                  .elementAt(
-                                                                                                  index)
-                                                                                                  .requiredAmount
-                                                                                                  .toString()) {
-                                                                                            double tectString = double
-                                                                                                .parse(
-                                                                                                onchangeval) *
-                                                                                                (commission
-                                                                                                    .commisiondata
-                                                                                                    .senderCommision /
-                                                                                                    100);
-                                                                                            totalamount =
-                                                                                                double
-                                                                                                    .parse(
-                                                                                                    onchangeval) +
-                                                                                                    tectString;
-                                                                                            print(
-                                                                                                "PrintUpdated: " +
-                                                                                                    totalamount
-                                                                                                        .toString());
-                                                                                            print(
-                                                                                                "PrintActual: " +
-                                                                                                    onchangeval
-                                                                                                        .toString());
-                                                                                          }
-                                                                                          else {
-                                                                                            double tectString = double
-                                                                                                .parse(
-                                                                                                onchangeval) *
-                                                                                                (commission
-                                                                                                    .commisiondata
-                                                                                                    .senderCommision /
-                                                                                                    100);
-                                                                                            totalamount =
-                                                                                                double
-                                                                                                    .parse(
-                                                                                                    onchangeval) -
-                                                                                                    tectString;
-                                                                                            print(
-                                                                                                "PrintUpdated: " +
-                                                                                                    totalamount
-                                                                                                        .toString());
-                                                                                            print(
-                                                                                                "PrintActual: " +
-                                                                                                    onchangeval
-                                                                                                        .toString());
-                                                                                          }
-                                                                                        });
-                                                                                        print(
-                                                                                            "value_1 : " +
-                                                                                                onchangeval);
-                                                                                      },
-                                                                                      validator: (
-                                                                                          val) {
-                                                                                        if (val
-                                                                                            .length ==
-                                                                                            0)
-                                                                                          return 'pleaseenterpaymentamount'
-                                                                                              .tr;
-                                                                                        else
-                                                                                          return null;
-                                                                                      },
-                                                                                      onFieldSubmitted: (
-                                                                                          v) {
-                                                                                        AmountFocus
-                                                                                            .unfocus();
-                                                                                      },
-                                                                                      onSaved: (
-                                                                                          val) =>
-                                                                                      _amount =
-                                                                                          val,
-                                                                                      textAlign: TextAlign
-                                                                                          .left,
-                                                                                      style: TextStyle(
-                                                                                          letterSpacing: 1.0,
-                                                                                          fontWeight: FontWeight
-                                                                                              .bold,
-                                                                                          fontFamily: 'Poppins-Regular',
-                                                                                          fontSize: 12,
-                                                                                          color: Colors
-                                                                                              .black),
-                                                                                      decoration:
-                                                                                      InputDecoration(
-                                                                                        // border: InputBorder.none,
-                                                                                        // focusedBorder: InputBorder.none,
-                                                                                        hintStyle: TextStyle(
-                                                                                          color: Colors
-                                                                                              .grey,
-                                                                                          fontWeight: FontWeight
-                                                                                              .bold,
-                                                                                          fontFamily: 'Poppins-Regular',
-                                                                                          fontSize: 12,
-                                                                                          decoration: TextDecoration
-                                                                                              .none,
-                                                                                        ),
-                                                                                        hintText: 'enterpaymentamount'
-                                                                                            .tr,
-                                                                                      ),
-                                                                                    ),
-                                                                                    Container(
-                                                                                        margin: EdgeInsets
-                                                                                            .only(
-                                                                                            top: SizeConfig
-                                                                                                .blockSizeVertical *
-                                                                                                2),
-                                                                                        alignment: Alignment
-                                                                                            .centerLeft,
-                                                                                        child: Row(
-                                                                                          children: [
-                                                                                            Text(
-                                                                                              'extracharges'
-                                                                                                  .tr,
-                                                                                              style: TextStyle(
-                                                                                                  letterSpacing: 1.0,
-                                                                                                  fontWeight: FontWeight
-                                                                                                      .normal,
-                                                                                                  fontFamily: 'Poppins-Regular',
-                                                                                                  fontSize: 10,
-                                                                                                  color: Colors
-                                                                                                      .black),
-                                                                                            ),
-                                                                                            Text(
-                                                                                              " " +
-                                                                                                  commission
-                                                                                                      .commisiondata
-                                                                                                      .senderCommision
-                                                                                                      .toString() +
-                                                                                                  "%",
-                                                                                              style: TextStyle(
-                                                                                                  letterSpacing: 1.0,
-                                                                                                  fontWeight: FontWeight
-                                                                                                      .normal,
-                                                                                                  fontFamily: 'Poppins-Regular',
-                                                                                                  fontSize: 10,
-                                                                                                  color: Colors
-                                                                                                      .black),
-                                                                                            ),
-                                                                                          ],
-                                                                                        )
-                                                                                    )
-
-                                                                                  ],
-                                                                                )
-
-                                                                            )
-
-
-                                                                        ),
-                                                                        actions: [
-                                                                          cancelButton,
-                                                                          continueButton,
-                                                                        ],
-                                                                      );
-                                                                      // show the dialog
-                                                                      showDialog(
-                                                                        context:
-                                                                        context,
-                                                                        builder:
-                                                                            (
-                                                                            BuildContext
-                                                                            context) {
-                                                                          return alert;
-                                                                        },
-                                                                      );
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    alignment: Alignment
-                                                                        .center,
-                                                                    height: SizeConfig
-                                                                        .blockSizeVertical *
-                                                                        5,
-                                                                    margin: EdgeInsets
-                                                                        .only(
-                                                                        top: SizeConfig
-                                                                            .blockSizeVertical *
-                                                                            3,
-                                                                        bottom: SizeConfig
-                                                                            .blockSizeVertical *
-                                                                            3,
-                                                                        left: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                            25,
-                                                                        right: SizeConfig
-                                                                            .blockSizeHorizontal *
-                                                                            25),
-                                                                    decoration: BoxDecoration(
-                                                                      image: new DecorationImage(
-                                                                        image: new AssetImage(
-                                                                            "assets/images/sendbutton.png"),
-                                                                        fit: BoxFit
-                                                                            .fill,
-                                                                      ),
-                                                                    ),
-                                                                    child: Text(
-                                                                        'okay'
-                                                                            .tr,
-                                                                        textAlign: TextAlign
-                                                                            .center,
-                                                                        style: TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontFamily: 'Poppins-Regular',
-                                                                          fontSize: 14,
-                                                                        )),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                                      .darkgreen,
+                                                                  fontSize: 9,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontFamily:
+                                                                      'Poppins-Regular'),
                                                             ),
                                                           ),
                                                         ),
-                                                      );
-                                                    } else {
-                                                      print("falseValue");
-                                                      warningDialog(
-                                                          'pleasereadthetermsandconditionscarefullybeforepaying'
-                                                              .tr,
-                                                          "SearchProject",
-                                                          context);
-                                                    }
-                                                  }
-                                                  else {
-                                                    print("falseValue");
-                                                    warningDialog(
-                                                        'pleasereadthetermsandconditionscarefullybeforepaying'
-                                                            .tr,
-                                                        "SearchProject",
-                                                        context);
-                                                  }
-                                                });
-                                              },
-                                              child:
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left:
-                                                    SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        1,
-                                                    right:
-                                                    SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        2,
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        2),
-                                                padding: EdgeInsets.only(
-                                                    right:
-                                                    SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3,
-                                                    left:
-                                                    SizeConfig
-                                                        .blockSizeHorizontal *
-                                                        3,
-                                                    bottom:
-                                                    SizeConfig
-                                                        .blockSizeVertical *
-                                                        1,
-                                                    top: SizeConfig
-                                                        .blockSizeVertical *
-                                                        1),
-                                                decoration:
-                                                BoxDecoration(
-                                                  color: AppColors
-                                                      .darkgreen,
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      20),
-                                                ),
-                                                child: Text(
-                                                  'pay'.tr,
-                                                  style: TextStyle(
-                                                      letterSpacing:
-                                                      1.0,
-                                                      color: AppColors
-                                                          .whiteColor,
-                                                      fontSize:
-                                                      9,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .bold,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ),
-                                            ) : Container() : Container()
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: SizeConfig
-                                                  .blockSizeHorizontal * 35,
-                                              alignment:
-                                              Alignment.topLeft,
-                                              margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .blockSizeVertical *
-                                                    1,
-                                              ),
-                                              child: Text(
-                                                listing.projectData
-                                                    .elementAt(index)
-                                                    .projectName,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.black87,
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
-                                            Container(
-                                                width: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    38,
-                                                alignment:
-                                                Alignment.topRight,
-                                                padding: EdgeInsets.only(
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                ),
-                                                margin: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                ),
-                                                child:
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment
-                                                      .end,
-                                                  children: [
-                                                    Text(
-                                                      'startdate'.tr,
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            2,
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            3),
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    padding: EdgeInsets.only(
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            2,
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        bottom: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            2,
+                                                        top: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            2),
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .whiteColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        border: Border.all(
+                                                            color: AppColors
+                                                                .purple)),
+                                                    child: Text(
+                                                      listing.projectData
+                                                          .elementAt(index)
+                                                          .status
+                                                          .toUpperCase(),
                                                       textAlign:
-                                                      TextAlign.right,
+                                                          TextAlign.center,
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
                                                           color:
-                                                          AppColors.black,
+                                                              AppColors.purple,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                          FontWeight
-                                                              .normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
-                                                          'Poppins-Regular'),
+                                                              'Poppins-Regular'),
                                                     ),
-                                                    Text(" " +
-                                                        listing.projectData
-                                                            .elementAt(
-                                                            index)
-                                                            .projectStartdate,
-                                                      textAlign:
-                                                      TextAlign.right,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color:
-                                                          AppColors.black,
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
-                                                    )
-                                                  ],
-                                                )
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  35,
-                                              alignment:
-                                              Alignment.topLeft,
-                                              margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .blockSizeVertical *
-                                                    1,
+                                                  ),
+                                                  listing.projectData
+                                                              .elementAt(index)
+                                                              .userId
+                                                              .toString() !=
+                                                          userid
+                                                      ? listing.projectData
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .status ==
+                                                              "pending"
+                                                          ? GestureDetector(
+                                                              onTap: () {
+                                                                SharedUtils.readTerms(
+                                                                        "Terms")
+                                                                    .then(
+                                                                        (result) {
+                                                                  if (result !=
+                                                                      null) {
+                                                                    if (result) {
+                                                                      showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        child:
+                                                                            Dialog(
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(10.0),
+                                                                          ),
+                                                                          backgroundColor:
+                                                                              AppColors.whiteColor,
+                                                                          child:
+                                                                              new Container(
+                                                                            margin:
+                                                                                EdgeInsets.all(5),
+                                                                            width:
+                                                                                SizeConfig.blockSizeHorizontal * 80,
+                                                                            height:
+                                                                                SizeConfig.blockSizeVertical * 40,
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Container(
+                                                                                  margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                                  color: AppColors.whiteColor,
+                                                                                  alignment: Alignment.center,
+                                                                                  child: Text(
+                                                                                    'confirmation'.tr,
+                                                                                    style: TextStyle(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
+                                                                                  ),
+                                                                                ),
+                                                                                Container(
+                                                                                  height: SizeConfig.blockSizeVertical * 10,
+                                                                                  width: SizeConfig.blockSizeHorizontal * 25,
+                                                                                  margin: EdgeInsets.only(
+                                                                                    left: SizeConfig.blockSizeHorizontal * 5,
+                                                                                    right: SizeConfig.blockSizeHorizontal * 5,
+                                                                                    top: SizeConfig.blockSizeVertical * 2,
+                                                                                  ),
+                                                                                  decoration: BoxDecoration(
+                                                                                    image: new DecorationImage(
+                                                                                      image: new AssetImage("assets/images/caution.png"),
+                                                                                      fit: BoxFit.fill,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Container(
+                                                                                  height: SizeConfig.blockSizeVertical * 9,
+                                                                                  margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                                                                  color: AppColors.whiteColor,
+                                                                                  alignment: Alignment.center,
+                                                                                  child: Text(
+                                                                                    'paymentalert'.tr,
+                                                                                    style: TextStyle(fontSize: 12.0, color: Colors.black, fontWeight: FontWeight.bold),
+                                                                                  ),
+                                                                                ),
+                                                                                InkWell(
+                                                                                  onTap: () {
+                                                                                    Navigator.of(context).pop();
+                                                                                    setState(() {
+                                                                                      Widget cancelButton = FlatButton(
+                                                                                        child: Text('cancel'.tr),
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                          setState(() {
+                                                                                            AmountController.text = "";
+                                                                                          });
+                                                                                        },
+                                                                                      );
+                                                                                      Widget continueButton = FlatButton(
+                                                                                        child: Text('continue'.tr),
+                                                                                        onPressed: () async {
+                                                                                          setState(() {
+                                                                                            if (_formmainKey.currentState.validate()) {
+                                                                                              Payamount(listing.projectData.elementAt(index).id.toString(), AmountController.text, totalamount, userid);
+                                                                                            }
+                                                                                          });
+                                                                                        },
+                                                                                      );
+                                                                                      // set up the AlertDialog
+                                                                                      AlertDialog alert = AlertDialog(
+                                                                                        title: Text('paynow'.tr),
+                                                                                        // content: Text("Are you sure you want to Pay this project?"),
+                                                                                        content: new Container(
+                                                                                            width: SizeConfig.blockSizeHorizontal * 80,
+                                                                                            height: SizeConfig.blockSizeVertical * 15,
+                                                                                            child: new Form(
+                                                                                                key: _formmainKey,
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    TextFormField(
+                                                                                                      autofocus: false,
+                                                                                                      focusNode: AmountFocus,
+                                                                                                      controller: AmountController,
+                                                                                                      textInputAction: TextInputAction.next,
+                                                                                                      keyboardType: TextInputType.number,
+                                                                                                      onChanged: (text) {
+                                                                                                        setState(() {
+                                                                                                          onchangeval = text;
+                                                                                                          if (onchangeval == listing.projectData.elementAt(index).requiredAmount.toString()) {
+                                                                                                            double tectString = double.parse(onchangeval) * (commission.commisiondata.senderCommision / 100);
+                                                                                                            totalamount = double.parse(onchangeval) + tectString;
+                                                                                                            print("PrintUpdated: " + totalamount.toString());
+                                                                                                            print("PrintActual: " + onchangeval.toString());
+                                                                                                          } else {
+                                                                                                            double tectString = double.parse(onchangeval) * (commission.commisiondata.senderCommision / 100);
+                                                                                                            totalamount = double.parse(onchangeval) - tectString;
+                                                                                                            print("PrintUpdated: " + totalamount.toString());
+                                                                                                            print("PrintActual: " + onchangeval.toString());
+                                                                                                          }
+                                                                                                        });
+                                                                                                        print("value_1 : " + onchangeval);
+                                                                                                      },
+                                                                                                      validator: (val) {
+                                                                                                        if (val.length == 0)
+                                                                                                          return 'pleaseenterpaymentamount'.tr;
+                                                                                                        else
+                                                                                                          return null;
+                                                                                                      },
+                                                                                                      onFieldSubmitted: (v) {
+                                                                                                        AmountFocus.unfocus();
+                                                                                                      },
+                                                                                                      onSaved: (val) => _amount = val,
+                                                                                                      textAlign: TextAlign.left,
+                                                                                                      style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular', fontSize: 12, color: Colors.black),
+                                                                                                      decoration: InputDecoration(
+                                                                                                        // border: InputBorder.none,
+                                                                                                        // focusedBorder: InputBorder.none,
+                                                                                                        hintStyle: TextStyle(
+                                                                                                          color: Colors.grey,
+                                                                                                          fontWeight: FontWeight.bold,
+                                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                                          fontSize: 12,
+                                                                                                          decoration: TextDecoration.none,
+                                                                                                        ),
+                                                                                                        hintText: 'enterpaymentamount'.tr,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                                                                                                        alignment: Alignment.centerLeft,
+                                                                                                        child: Row(
+                                                                                                          children: [
+                                                                                                            Text(
+                                                                                                              'extracharges'.tr,
+                                                                                                              style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
+                                                                                                            ),
+                                                                                                            Text(
+                                                                                                              " " + commission.commisiondata.senderCommision.toString() + "%",
+                                                                                                              style: TextStyle(letterSpacing: 1.0, fontWeight: FontWeight.normal, fontFamily: 'Poppins-Regular', fontSize: 10, color: Colors.black),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ))
+                                                                                                  ],
+                                                                                                ))),
+                                                                                        actions: [
+                                                                                          cancelButton,
+                                                                                          continueButton,
+                                                                                        ],
+                                                                                      );
+                                                                                      // show the dialog
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                                                                          return alert;
+                                                                                        },
+                                                                                      );
+                                                                                    });
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    alignment: Alignment.center,
+                                                                                    height: SizeConfig.blockSizeVertical * 5,
+                                                                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3, bottom: SizeConfig.blockSizeVertical * 3, left: SizeConfig.blockSizeHorizontal * 25, right: SizeConfig.blockSizeHorizontal * 25),
+                                                                                    decoration: BoxDecoration(
+                                                                                      image: new DecorationImage(
+                                                                                        image: new AssetImage("assets/images/sendbutton.png"),
+                                                                                        fit: BoxFit.fill,
+                                                                                      ),
+                                                                                    ),
+                                                                                    child: Text('okay'.tr,
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.white,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          fontFamily: 'Poppins-Regular',
+                                                                                          fontSize: 14,
+                                                                                        )),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    } else {
+                                                                      print(
+                                                                          "falseValue");
+                                                                      warningDialog(
+                                                                          'pleasereadthetermsandconditionscarefullybeforepaying'
+                                                                              .tr,
+                                                                          "SearchProject",
+                                                                          context);
+                                                                    }
+                                                                  } else {
+                                                                    print(
+                                                                        "falseValue");
+                                                                    warningDialog(
+                                                                        'pleasereadthetermsandconditionscarefullybeforepaying'
+                                                                            .tr,
+                                                                        "SearchProject",
+                                                                        context);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                margin: EdgeInsets.only(
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        1,
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        2,
+                                                                    top: SizeConfig
+                                                                            .blockSizeVertical *
+                                                                        2),
+                                                                padding: EdgeInsets.only(
+                                                                    right: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        3,
+                                                                    left: SizeConfig
+                                                                            .blockSizeHorizontal *
+                                                                        3,
+                                                                    bottom:
+                                                                        SizeConfig.blockSizeVertical *
+                                                                            1,
+                                                                    top: SizeConfig
+                                                                            .blockSizeVertical *
+                                                                        1),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: AppColors
+                                                                      .darkgreen,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                ),
+                                                                child: Text(
+                                                                  'pay'.tr,
+                                                                  style: TextStyle(
+                                                                      letterSpacing:
+                                                                          1.0,
+                                                                      color: AppColors
+                                                                          .whiteColor,
+                                                                      fontSize:
+                                                                          9,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontFamily:
+                                                                          'Poppins-Regular'),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : Container()
+                                                      : Container()
+                                                ],
                                               ),
-                                              child: Text(
-                                                //StringConstant.totalContribution+"-20",
-                                                "",
-                                                textAlign:
-                                                TextAlign.right,
-                                                style: TextStyle(
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.black87,
-                                                    fontSize: 9,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    fontFamily:
-                                                    'Poppins-Regular'),
-                                              ),
-                                            ),
-                                            Container(
-                                                width: SizeConfig
-                                                    .blockSizeHorizontal *
-                                                    38,
-                                                alignment:
-                                                Alignment.topRight,
-                                                padding: EdgeInsets.only(
-                                                  left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                  right: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                      1,
-                                                ),
-                                                margin: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                      .blockSizeVertical *
-                                                      1,
-                                                ),
-                                                child:
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment
-                                                      .end,
-                                                  children: [
-                                                    Text(
-                                                      'enddate'.tr,
-                                                      textAlign:
-                                                      TextAlign.right,
-                                                      style: TextStyle(
-                                                          letterSpacing: 1.0,
-                                                          color:
-                                                          AppColors.black,
-                                                          fontSize: 9,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .normal,
-                                                          fontFamily:
-                                                          'Poppins-Regular'),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        35,
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                              .blockSizeVertical *
+                                                          1,
                                                     ),
-                                                    Text(
-                                                      " " + listing.projectData
-                                                          .elementAt(
-                                                          index)
-                                                          .projectEnddate,
-                                                      textAlign:
-                                                      TextAlign.right,
+                                                    child: Text(
+                                                      listing.projectData
+                                                          .elementAt(index)
+                                                          .projectName,
                                                       style: TextStyle(
                                                           letterSpacing: 1.0,
-                                                          color:
-                                                          AppColors.black,
+                                                          color: Colors.black87,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'Poppins-Regular'),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          38,
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                      ),
+                                                      margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Text(
+                                                            'startdate'.tr,
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            style: TextStyle(
+                                                                letterSpacing:
+                                                                    1.0,
+                                                                color: AppColors
+                                                                    .black,
+                                                                fontSize: 9,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    'Poppins-Regular'),
+                                                          ),
+                                                          Text(
+                                                            " " +
+                                                                listing
+                                                                    .projectData
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .projectStartdate,
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            style: TextStyle(
+                                                                letterSpacing:
+                                                                    1.0,
+                                                                color: AppColors
+                                                                    .black,
+                                                                fontSize: 9,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    'Poppins-Regular'),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        35,
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                              .blockSizeVertical *
+                                                          1,
+                                                    ),
+                                                    child: Text(
+                                                      //StringConstant.totalContribution+"-20",
+                                                      "",
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                          letterSpacing: 1.0,
+                                                          color: Colors.black87,
                                                           fontSize: 9,
                                                           fontWeight:
-                                                          FontWeight
-                                                              .normal,
+                                                              FontWeight.bold,
                                                           fontFamily:
-                                                          'Poppins-Regular'),
-                                                    )
-                                                  ],
-                                                )
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: [
-
-                                        Container(
-                                            width: SizeConfig
-                                                .blockSizeHorizontal * 36,
-                                            alignment: Alignment.topLeft,
-                                            margin: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .blockSizeVertical * 1,
-                                                left: SizeConfig
-                                                    .blockSizeHorizontal * 1),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  'collectiontarget'.tr,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors.black87,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                                Text(
-                                                  " \$" + listing.projectData
-                                                      .elementAt(index)
-                                                      .budget
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors
-                                                          .lightBlueAccent,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ],
-                                            )
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: SizeConfig
-                                              .blockSizeVertical *
-                                              1),
-                                      child: LinearPercentIndicator(
-                                        width: 60.0,
-                                        lineHeight: 14.0,
-                                        percent: amoun / 100,
-                                        center: Text(
-                                          amoun.toString() + "%",
-                                          style: TextStyle(
-                                              fontSize: 8,
-                                              color:
-                                              AppColors.whiteColor),
-                                        ),
-                                        backgroundColor:
-                                        AppColors.lightgrey,
-                                        progressColor:
-                                        AppColors.themecolor,
+                                                              'Poppins-Regular'),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                      width: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          38,
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                      ),
+                                                      margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            1,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Text(
+                                                            'enddate'.tr,
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            style: TextStyle(
+                                                                letterSpacing:
+                                                                    1.0,
+                                                                color: AppColors
+                                                                    .black,
+                                                                fontSize: 9,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    'Poppins-Regular'),
+                                                          ),
+                                                          Text(
+                                                            " " +
+                                                                listing
+                                                                    .projectData
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .projectEnddate,
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            style: TextStyle(
+                                                                letterSpacing:
+                                                                    1.0,
+                                                                color: AppColors
+                                                                    .black,
+                                                                fontSize: 9,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    'Poppins-Regular'),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                            width: SizeConfig
-                                                .blockSizeHorizontal * 36,
-                                            alignment: Alignment.centerRight,
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      36,
+                                                  alignment: Alignment.topLeft,
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                              .blockSizeVertical *
+                                                          1,
+                                                      left: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          1),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        'collectiontarget'.tr,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color:
+                                                                Colors.black87,
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Poppins-Regular'),
+                                                      ),
+                                                      Text(
+                                                        " \$" +
+                                                            listing.projectData
+                                                                .elementAt(
+                                                                    index)
+                                                                .budget
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: Colors
+                                                                .lightBlueAccent,
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Poppins-Regular'),
+                                                      ),
+                                                    ],
+                                                  )),
+                                            ],
+                                          ),
+                                          Container(
                                             margin: EdgeInsets.only(
                                                 top: SizeConfig
-                                                    .blockSizeVertical * 1,
-                                                right: SizeConfig
-                                                    .blockSizeHorizontal * 4),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .end,
-                                              children: [
-                                                Text(
-                                                  'collectedamount'.tr,
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors.black87,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                                Text(
-                                                  " \$" + listing.projectData
-                                                      .elementAt(index)
-                                                      .totalcollectedamount
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      letterSpacing: 1.0,
-                                                      color: Colors
-                                                          .lightBlueAccent,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontFamily:
-                                                      'Poppins-Regular'),
-                                                ),
-                                              ],
-                                            )
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                /* Container(
+                                                        .blockSizeVertical *
+                                                    1),
+                                            child: LinearPercentIndicator(
+                                              width: 60.0,
+                                              lineHeight: 14.0,
+                                              percent: amoun / 100,
+                                              center: Text(
+                                                amoun.toString() + "%",
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color:
+                                                        AppColors.whiteColor),
+                                              ),
+                                              backgroundColor:
+                                                  AppColors.lightgrey,
+                                              progressColor:
+                                                  AppColors.themecolor,
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      36,
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  margin: EdgeInsets.only(
+                                                      top: SizeConfig
+                                                              .blockSizeVertical *
+                                                          1,
+                                                      right: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          4),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        'collectedamount'.tr,
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color:
+                                                                Colors.black87,
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Poppins-Regular'),
+                                                      ),
+                                                      Text(
+                                                        " \$" +
+                                                            listing.projectData
+                                                                .elementAt(
+                                                                    index)
+                                                                .totalcollectedamount
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                            letterSpacing: 1.0,
+                                                            color: Colors
+                                                                .lightBlueAccent,
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Poppins-Regular'),
+                                                      ),
+                                                    ],
+                                                  )),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      /* Container(
                                       height: SizeConfig.blockSizeVertical*30,
                                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical *2),
                                       child: Image.asset("assets/images/banner5.png",fit: BoxFit.fitHeight,),
                                     ),*/
-                                imageslist_length != null
-                                    ? GestureDetector(
-                                  onTap: () {
-                                    callNext(
-                                        OngoingProjectDetailsscreen(
-                                            data: listing
-                                                .projectData
-                                                .elementAt(index)
-                                                .id
-                                                .toString(),
-                                            coming: "searchproject"),
-                                        context);
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    alignment: Alignment.topCenter,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig
-                                            .blockSizeVertical *
-                                            2),
-                                    height: SizeConfig
-                                        .blockSizeVertical *
-                                        30,
-                                    child: Stack(
-                                      alignment:
-                                      AlignmentDirectional
-                                          .bottomCenter,
-                                      children: <Widget>[
-                                        PageView.builder(
-                                          physics:
-                                          ClampingScrollPhysics(),
-                                          itemCount:
-                                          imageslist_length.length ==
-                                              null
-                                              ? 0
-                                              : imageslist_length
-                                              .length,
-                                          onPageChanged:
-                                              (int page) {
-                                            getChangedPageAndMoveBar(
-                                                page);
-                                          },
-                                          controller: PageController(
-                                              initialPage:
-                                              currentPageValue,
-                                              keepPage: true,
-                                              viewportFraction: 1),
-                                          itemBuilder:
-                                              (context, ind) {
-                                            return Container(
-                                              width: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  80,
-                                              height: SizeConfig
-                                                  .blockSizeVertical *
-                                                  50,
-                                              decoration:
-                                              BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors
-                                                          .transparent),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        Network.BaseApiProject +
-                                                            listing.projectData
+                                      imageslist_length != null
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                callNext(
+                                                    OngoingProjectDetailsscreen(
+                                                        data: listing
+                                                            .projectData
+                                                            .elementAt(index)
+                                                            .id
+                                                            .toString(),
+                                                        coming:
+                                                            "searchproject"),
+                                                    context);
+                                              },
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                alignment: Alignment.topCenter,
+                                                margin: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                            .blockSizeVertical *
+                                                        2),
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    30,
+                                                child: Stack(
+                                                  alignment:
+                                                      AlignmentDirectional
+                                                          .bottomCenter,
+                                                  children: <Widget>[
+                                                    PageView.builder(
+                                                      physics:
+                                                          ClampingScrollPhysics(),
+                                                      itemCount:
+                                                          imageslist_length
+                                                                      .length ==
+                                                                  null
+                                                              ? 0
+                                                              : imageslist_length
+                                                                  .length,
+                                                      onPageChanged:
+                                                          (int page) {
+                                                        getChangedPageAndMoveBar(
+                                                            page);
+                                                      },
+                                                      controller: PageController(
+                                                          initialPage:
+                                                              currentPageValue,
+                                                          keepPage: true,
+                                                          viewportFraction: 1),
+                                                      itemBuilder:
+                                                          (context, ind) {
+                                                        return Container(
+                                                          width: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              80,
+                                                          height: SizeConfig
+                                                                  .blockSizeVertical *
+                                                              50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: Colors
+                                                                          .transparent),
+                                                                  image: DecorationImage(
+                                                                      image: NetworkImage(
+                                                                        Network.BaseApiProject +
+                                                                            listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
+                                                                      ),
+                                                                      fit: BoxFit.scaleDown)),
+                                                        );
+                                                      },
+                                                    ),
+                                                    Stack(
+                                                      alignment:
+                                                          AlignmentDirectional
+                                                              .bottomCenter,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin: EdgeInsets.only(
+                                                              bottom: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  2),
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: <Widget>[
+                                                              for (int i = 0;
+                                                                  i <
+                                                                      imageslist_length
+                                                                          .length;
+                                                                  i++)
+                                                                if (i ==
+                                                                    currentPageValue) ...[
+                                                                  circleBar(
+                                                                      true)
+                                                                ] else
+                                                                  circleBar(
+                                                                      false),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : imageslist_length != null
+                                              ? GestureDetector(
+                                                  onTap: () {
+                                                    //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                                    callNext(
+                                                        OngoingProjectDetailsscreen(
+                                                            data: listing
+                                                                .projectData
                                                                 .elementAt(
-                                                                index)
-                                                                .projectImages
-                                                                .elementAt(ind)
-                                                                .imagePath,
-                                                      ),
-                                                      fit: BoxFit.scaleDown)),
-                                            );
-                                          },
-                                        ),
-                                        Stack(
-                                          alignment:
-                                          AlignmentDirectional
-                                              .bottomCenter,
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  bottom: SizeConfig
-                                                      .blockSizeVertical *
-                                                      2),
-                                              child: Row(
-                                                mainAxisSize:
-                                                MainAxisSize
-                                                    .min,
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .center,
-                                                children: <Widget>[
-                                                  for (int i = 0;
-                                                  i <
-                                                      imageslist_length
-                                                          .length;
-                                                  i++)
-                                                    if (i ==
-                                                        currentPageValue) ...[
-                                                      circleBar(
-                                                          true)
-                                                    ] else
-                                                      circleBar(
-                                                          false),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    : imageslist_length != null
-                                    ? GestureDetector(
-                                  onTap: () {
-                                    //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                    callNext(
-                                        OngoingProjectDetailsscreen(
-                                            data: listing
-                                                .projectData
-                                                .elementAt(index)
-                                                .id
-                                                .toString(),
-                                            coming: "searchproject"),
-                                        context);
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    alignment:
-                                    Alignment.topCenter,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig
-                                            .blockSizeVertical *
-                                            2),
-                                    height: SizeConfig
-                                        .blockSizeVertical *
-                                        30,
-                                    child: Stack(
-                                      alignment:
-                                      AlignmentDirectional
-                                          .bottomCenter,
-                                      children: <Widget>[
-                                        PageView.builder(
-                                          physics:
-                                          ClampingScrollPhysics(),
-                                          itemCount: imageslist_length
-                                              .length ==
-                                              null
-                                              ? 0
-                                              : imageslist_length
-                                              .length,
-                                          onPageChanged:
-                                              (int page) {
-                                            getChangedPageAndMoveBar(
-                                                page);
-                                          },
-                                          controller: PageController(
-                                              initialPage:
-                                              currentPageValue,
-                                              keepPage: true,
-                                              viewportFraction:
-                                              1),
-                                          itemBuilder:
-                                              (context, ind) {
-                                            return Container(
-                                              width: SizeConfig
-                                                  .blockSizeHorizontal *
-                                                  80,
-                                              height: SizeConfig
-                                                  .blockSizeVertical *
-                                                  50,
-                                              decoration:
-                                              BoxDecoration(
-                                                  border: Border.all(
-                                                      color:
-                                                      Colors.transparent),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        Network.BaseApiProject +
-                                                            listing.projectData
+                                                                    index)
+                                                                .id
+                                                                .toString(),
+                                                            coming:
+                                                                "searchproject"),
+                                                        context);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            2),
+                                                    height: SizeConfig
+                                                            .blockSizeVertical *
+                                                        30,
+                                                    child: Stack(
+                                                      alignment:
+                                                          AlignmentDirectional
+                                                              .bottomCenter,
+                                                      children: <Widget>[
+                                                        PageView.builder(
+                                                          physics:
+                                                              ClampingScrollPhysics(),
+                                                          itemCount: imageslist_length
+                                                                      .length ==
+                                                                  null
+                                                              ? 0
+                                                              : imageslist_length
+                                                                  .length,
+                                                          onPageChanged:
+                                                              (int page) {
+                                                            getChangedPageAndMoveBar(
+                                                                page);
+                                                          },
+                                                          controller: PageController(
+                                                              initialPage:
+                                                                  currentPageValue,
+                                                              keepPage: true,
+                                                              viewportFraction:
+                                                                  1),
+                                                          itemBuilder:
+                                                              (context, ind) {
+                                                            return Container(
+                                                              width: SizeConfig
+                                                                      .blockSizeHorizontal *
+                                                                  80,
+                                                              height: SizeConfig
+                                                                      .blockSizeVertical *
+                                                                  50,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color:
+                                                                              Colors.transparent),
+                                                                      image: DecorationImage(
+                                                                          image: NetworkImage(
+                                                                            Network.BaseApiProject +
+                                                                                listing.projectData.elementAt(index).projectImages.elementAt(ind).imagePath,
+                                                                          ),
+                                                                          fit: BoxFit.fill)),
+                                                            );
+                                                          },
+                                                        ),
+                                                        Stack(
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .bottomCenter,
+                                                          children: <Widget>[
+                                                            Container(
+                                                              margin: EdgeInsets.only(
+                                                                  bottom: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      2),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
+                                                                  for (int i =
+                                                                          0;
+                                                                      i <
+                                                                          imageslist_length
+                                                                              .length;
+                                                                      i++)
+                                                                    if (i ==
+                                                                        currentPageValue) ...[
+                                                                      circleBar(
+                                                                          true)
+                                                                    ] else
+                                                                      circleBar(
+                                                                          false),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
+                                                    callNext(
+                                                        OngoingProjectDetailsscreen(
+                                                            data: listing
+                                                                .projectData
                                                                 .elementAt(
-                                                                index)
-                                                                .projectImages
-                                                                .elementAt(ind)
-                                                                .imagePath,
-                                                      ),
-                                                      fit: BoxFit.fill)),
-                                            );
-                                          },
-                                        ),
-                                        Stack(
-                                          alignment:
-                                          AlignmentDirectional
-                                              .bottomCenter,
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  bottom: SizeConfig
-                                                      .blockSizeVertical *
-                                                      2),
-                                              child: Row(
-                                                mainAxisSize:
-                                                MainAxisSize
-                                                    .min,
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .center,
-                                                children: <
-                                                    Widget>[
-                                                  for (int i =
-                                                  0;
-                                                  i <
-                                                      imageslist_length
-                                                          .length;
-                                                  i++)
-                                                    if (i ==
-                                                        currentPageValue) ...[
-                                                      circleBar(
-                                                          true)
-                                                    ] else
-                                                      circleBar(
-                                                          false),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    : GestureDetector(
-                                  onTap: () {
-                                    //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
-                                    callNext(
-                                        OngoingProjectDetailsscreen(
-                                            data: listing
-                                                .projectData
-                                                .elementAt(
-                                                index)
-                                                .id
-                                                .toString(),
-                                            coming: "searchproject"),
-                                        context);
-                                  },
-                                  child: Container(
-                                    color: AppColors.themecolor,
-                                    alignment:
-                                    Alignment.topCenter,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig
-                                            .blockSizeVertical *
-                                            2),
-                                    height: SizeConfig
-                                        .blockSizeVertical *
-                                        30,
-                                    child: Stack(
-                                      alignment:
-                                      AlignmentDirectional
-                                          .bottomCenter,
-                                      children: <Widget>[
-                                        PageView.builder(
-                                          physics:
-                                          ClampingScrollPhysics(),
-                                          itemCount:
-                                          introWidgetsList
-                                              .length,
-                                          onPageChanged:
-                                              (int page) {
-                                            getChangedPageAndMoveBar(
-                                                page);
-                                          },
-                                          controller: PageController(
-                                              initialPage:
-                                              currentPageValue,
-                                              keepPage: true,
-                                              viewportFraction:
-                                              1),
-                                          itemBuilder:
-                                              (context, index) {
-                                            return introWidgetsList[
-                                            index];
-                                          },
-                                        ),
-                                        Stack(
-                                          alignment:
-                                          AlignmentDirectional
-                                              .bottomCenter,
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  bottom: SizeConfig
-                                                      .blockSizeVertical *
-                                                      2),
-                                              child: Row(
-                                                mainAxisSize:
-                                                MainAxisSize
-                                                    .min,
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .center,
-                                                children: <
-                                                    Widget>[
-                                                  for (int i =
-                                                  0;
-                                                  i <
-                                                      introWidgetsList
-                                                          .length;
-                                                  i++)
-                                                    if (i ==
-                                                        currentPageValue) ...[
-                                                      circleBar(
-                                                          true)
-                                                    ] else
-                                                      circleBar(
-                                                          false),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                /* Container(
+                                                                    index)
+                                                                .id
+                                                                .toString(),
+                                                            coming:
+                                                                "searchproject"),
+                                                        context);
+                                                  },
+                                                  child: Container(
+                                                    color: AppColors.themecolor,
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    margin: EdgeInsets.only(
+                                                        top: SizeConfig
+                                                                .blockSizeVertical *
+                                                            2),
+                                                    height: SizeConfig
+                                                            .blockSizeVertical *
+                                                        30,
+                                                    child: Stack(
+                                                      alignment:
+                                                          AlignmentDirectional
+                                                              .bottomCenter,
+                                                      children: <Widget>[
+                                                        PageView.builder(
+                                                          physics:
+                                                              ClampingScrollPhysics(),
+                                                          itemCount:
+                                                              introWidgetsList
+                                                                  .length,
+                                                          onPageChanged:
+                                                              (int page) {
+                                                            getChangedPageAndMoveBar(
+                                                                page);
+                                                          },
+                                                          controller: PageController(
+                                                              initialPage:
+                                                                  currentPageValue,
+                                                              keepPage: true,
+                                                              viewportFraction:
+                                                                  1),
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            return introWidgetsList[
+                                                                index];
+                                                          },
+                                                        ),
+                                                        Stack(
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .bottomCenter,
+                                                          children: <Widget>[
+                                                            Container(
+                                                              margin: EdgeInsets.only(
+                                                                  bottom: SizeConfig
+                                                                          .blockSizeVertical *
+                                                                      2),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
+                                                                  for (int i =
+                                                                          0;
+                                                                      i <
+                                                                          introWidgetsList
+                                                                              .length;
+                                                                      i++)
+                                                                    if (i ==
+                                                                        currentPageValue) ...[
+                                                                      circleBar(
+                                                                          true)
+                                                                    ] else
+                                                                      circleBar(
+                                                                          false),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                      /* Container(
                                         margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
@@ -1829,7 +1734,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                             ),
                                             Spacer(),
                                             */
-                                /*    InkWell(
+                                      /*    InkWell(
                                                 onTap: (){
 
                                                 },
@@ -1869,36 +1774,36 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                   //child: Image.asset("assets/images/save.png"),
                                                 ),
                                               ),*/
-                                /*
+                                      /*
                                           ],
                                         ),
                                       ),*/
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal *
-                                      100,
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left:
-                                      SizeConfig.blockSizeHorizontal *
-                                          3,
-                                      right:
-                                      SizeConfig.blockSizeHorizontal *
-                                          3,
-                                      top: SizeConfig.blockSizeVertical *
-                                          1),
-                                  child: new Html(
-                                    data: listing.projectData
-                                        .elementAt(index)
-                                        .description,
-                                    defaultTextStyle: TextStyle(
-                                        letterSpacing: 1.0,
-                                        color: Colors.black87,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Poppins-Regular'),
-                                  ),
-                                ),
-                                /*    GestureDetector(
+                                      Container(
+                                        width: SizeConfig.blockSizeHorizontal *
+                                            100,
+                                        alignment: Alignment.topLeft,
+                                        margin: EdgeInsets.only(
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                            top: SizeConfig.blockSizeVertical *
+                                                1),
+                                        child: new Html(
+                                          data: listing.projectData
+                                              .elementAt(index)
+                                              .description,
+                                          defaultTextStyle: TextStyle(
+                                              letterSpacing: 1.0,
+                                              color: Colors.black87,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular'),
+                                        ),
+                                      ),
+                                      /*    GestureDetector(
                                           onTap: ()
                                           {
                                             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OngoingProjectDetailsscreen()));
@@ -1976,42 +1881,37 @@ class SearchbarProjectState extends State<SearchbarProject> {
                                                 'Poppins-Regular'),
                                           ),
                                         ),*/
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-              )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    )
                   : Container(
-                margin: EdgeInsets.only(top: 100),
-                alignment: Alignment.center,
-                child: resultvalue == true
-                    ? Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : Center(
-                  child: Text('norecordsfound'.tr, style: TextStyle(
-                      letterSpacing: 1.0,
-                      color: AppColors.black,
-                      fontSize: 16,
-                      fontWeight:
-                      FontWeight.bold,
-                      fontFamily:
-                      'Poppins-Regular')),
-                ),
-              )
+                      margin: EdgeInsets.only(top: 100),
+                      alignment: Alignment.center,
+                      child: resultvalue == true
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Center(
+                              child: Text('norecordsfound'.tr,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: AppColors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins-Regular')),
+                            ),
+                    )
             ],
           ),
         ));
   }
 
-
   _showPopupMenu(int index) async {
-    final RenderBox overlay = Overlay
-        .of(context)
-        .context
-        .findRenderObject();
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
       position: RelativeRect.fromLTRB(
@@ -2026,15 +1926,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
               onTap: () {
                 setState(() {
                   print("Copy: " +
-                      listing.projectData
-                          .elementAt(index)
-                          .id
-                          .toString());
+                      listing.projectData.elementAt(index).id.toString());
                   _createDynamicLink(
-                      listing.projectData
-                          .elementAt(index)
-                          .id
-                          .toString());
+                      listing.projectData.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -2044,7 +1938,10 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('sharevia'.tr, style: TextStyle(fontSize: 14),)
+                  Text(
+                    'sharevia'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
@@ -2056,10 +1953,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 callNext(
                     ProjectReport(
                         data:
-                        listing.projectData
-                            .elementAt(index)
-                            .id
-                            .toString()),
+                            listing.projectData.elementAt(index).id.toString()),
                     context);
               },
               child: Row(
@@ -2068,11 +1962,13 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.report),
                   ),
-                  Text('report'.tr, style: TextStyle(fontSize: 14),)
+                  Text(
+                    'report'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
-            )
-        ),
+            )),
       ],
       elevation: 8.0,
     );
@@ -2102,16 +1998,15 @@ class SearchbarProjectState extends State<SearchbarProject> {
   }
 
   _showEditPopupMenu(int index) async {
-    final RenderBox overlay = Overlay
-        .of(context)
-        .context
-        .findRenderObject();
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(_tapDownPosition.dx,
+      position: RelativeRect.fromLTRB(
+        _tapDownPosition.dx,
         _tapDownPosition.dy,
         overlay.size.width - _tapDownPosition.dx,
-        overlay.size.height - _tapDownPosition.dy,),
+        overlay.size.height - _tapDownPosition.dy,
+      ),
       items: [
         PopupMenuItem(
             value: 1,
@@ -2119,15 +2014,9 @@ class SearchbarProjectState extends State<SearchbarProject> {
               onTap: () {
                 setState(() {
                   print("Copy: " +
-                      listing.projectData
-                          .elementAt(index)
-                          .id
-                          .toString());
+                      listing.projectData.elementAt(index).id.toString());
                   _createDynamicLink(
-                      listing.projectData
-                          .elementAt(index)
-                          .id
-                          .toString());
+                      listing.projectData.elementAt(index).id.toString());
                 });
                 Navigator.of(context).pop();
               },
@@ -2137,7 +2026,10 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.content_copy),
                   ),
-                  Text('sharevia'.tr, style: TextStyle(fontSize: 14),)
+                  Text(
+                    'sharevia'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
@@ -2149,10 +2041,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 callNext(
                     EditCreateProjectPost(
                         data:
-                        listing.projectData
-                            .elementAt(index)
-                            .id
-                            .toString()),
+                            listing.projectData.elementAt(index).id.toString()),
                     context);
               },
               child: Row(
@@ -2161,7 +2050,10 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     padding: const EdgeInsets.fromLTRB(2, 1, 8, 1),
                     child: Icon(Icons.edit),
                   ),
-                  Text('edit'.tr, style: TextStyle(fontSize: 14),)
+                  Text(
+                    'edit'.tr,
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )),
@@ -2170,10 +2062,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  deleteDialog(listing.projectData
-                      .elementAt(index)
-                      .id
-                      .toString());
+                  deleteDialog(
+                      listing.projectData.elementAt(index).id.toString());
                 });
                 //  Navigator.of(context).pop();
               },
@@ -2195,10 +2085,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
     );
   }
 
-
   void deleteDialog(String id) {
-    Widget cancelButton = FlatButton
-      (
+    Widget cancelButton = FlatButton(
       child: Text('no'.tr),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -2229,7 +2117,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
     );
   }
 
-
   Future<void> deleteProject(String id) async {
     Dialogs.showLoadingDialog(context, _keyLoaderproject);
     Map data = {
@@ -2238,8 +2125,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
     };
     print("ID: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(
-        Network.BaseApi + Network.projectdelete, body: data);
+    http.Response response =
+        await http.post(Network.BaseApi + Network.projectdelete, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       deleteproject = response.body; //store response as string
@@ -2280,11 +2167,13 @@ class SearchbarProjectState extends State<SearchbarProject> {
           fit: BoxFit.cover,
         ),
         actions: <Widget>[
-          activeLanguage == "Arabic" ?
+          /* activeLanguage =="Arabic"?
           new IconButton(
             icon: actionIcon,
             onPressed: () {
+
               setState(() {
+
                 if (this.actionIcon.icon == Icons.search) {
                   this.actionIcon = new Icon(
                     Icons.close,
@@ -2310,12 +2199,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        getdata(userid, value);
+                        getdata(userid,value);
                       });
                     },
                     decoration: new InputDecoration(
                       //prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: 'searchhere'.tr,
+                        hintText:'searchhere'.tr,
                         hintStyle: new TextStyle(color: Colors.white)),
                   );
                   Visibility(
@@ -2323,32 +2212,185 @@ class SearchbarProjectState extends State<SearchbarProject> {
                       maintainAnimation: true,
                       maintainState: true,
                       child: Container());
-                  showkeyboardProjectname == true ? Container(
-                    color: Colors.white54,
-                    child: VirtualKeyboard(
-                        height: 250,
-                        textColor: Colors.black,
-                        textController: _searchQuery,
-                        defaultLayouts: [
-                          // VirtualKeyboardDefaultLayouts.English,
-                          VirtualKeyboardDefaultLayouts.Arabic
-                        ],
-                        //reverseLayout :true,
-                        type: isNumericMode
-                            ? VirtualKeyboardType.Numeric
-                            : VirtualKeyboardType.Alphanumeric,
-                        onKeyPress: _onKeyPress),
-                  ) : Container();
+                showkeyboardProjectname == true? Container(
+                color: Colors.white54,
+                child: VirtualKeyboard(
+                height: 250,
+                textColor: Colors.black,
+                textController: _searchQuery,
+                defaultLayouts: [
+                // VirtualKeyboardDefaultLayouts.English,
+                VirtualKeyboardDefaultLayouts.Arabic
+                ],
+                //reverseLayout :true,
+                type: isNumericMode
+                ? VirtualKeyboardType.Numeric
+                    : VirtualKeyboardType.Alphanumeric,
+                onKeyPress: _onKeyPress),
+                ):Container();
 
 
                   _handleSearchStart();
                 } else {
                   _handleSearchEnd();
                 }
+
+              });
+
+            },
+          ):
+          activeLanguage =="English"?
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+
+              setState(() {
+
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextField(
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        getdata(userid,value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText:'searchhere'.tr,
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+
+              });
+
+            },
+          ):
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+
+              setState(() {
+
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextField(
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        getdata(userid,value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText:'searchhere'.tr,
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+
+              });
+
+            },
+          ),*/
+          activeLanguage =="English"?
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+
+              setState(() {
+
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextField(
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        getdata(userid,value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText:'searchhere'.tr,
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+
+              });
+
+            },
+          ):
+          activeLanguage =="Arabic"?
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextFormField(
+                    onTap: () => setState(() {
+                      showkeyboardProjectname = true;
+                      _modalBottomSheetMenu();
+                    }),
+                    enableInteractiveSelection: true,
+                    toolbarOptions: ToolbarOptions(
+                      copy: true,
+                      cut: true,
+                      paste: true,
+                      selectAll: true,
+                    ),
+                    autofocus: false,
+                    readOnly: true,
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (_searchQuery) {
+                      setState(() {
+                        getdata(userid, text);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText: 'searchhere'.tr,
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
               });
             },
-          ) :
-          activeLanguage == "English" ?
+          ):
           new IconButton(
             icon: actionIcon,
             onPressed: () {
@@ -2365,12 +2407,12 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        getdata(userid, value);
+                        getdata(userid,value);
                       });
                     },
                     decoration: new InputDecoration(
                       //prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: 'searchhere'.tr,
+                        hintText:'searchhere'.tr,
                         hintStyle: new TextStyle(color: Colors.white)),
                   );
                   _handleSearchStart();
@@ -2379,38 +2421,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
                 }
               });
             },
-          ) :
-          new IconButton(
-            icon: actionIcon,
-            onPressed: () {
-              setState(() {
-                if (this.actionIcon.icon == Icons.search) {
-                  this.actionIcon = new Icon(
-                    Icons.close,
-                    color: Colors.white,
-                  );
-                  this.appBarTitle = new TextField(
-                    controller: _searchQuery,
-                    style: new TextStyle(
-                      color: Colors.white,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        getdata(userid, value);
-                      });
-                    },
-                    decoration: new InputDecoration(
-                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
-                        hintText: 'searchhere'.tr,
-                        hintStyle: new TextStyle(color: Colors.white)),
-                  );
-                  _handleSearchStart();
-                } else {
-                  _handleSearchEnd();
-                }
-              });
-            },
-          ),
+          )
         ]);
   }
 
@@ -2427,7 +2438,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
         color: Colors.white,
       );
       this.appBarTitle =
-      new Text("", style: new TextStyle(color: Colors.white));
+          new Text("", style: new TextStyle(color: Colors.white));
       _IsSearching = false;
       _searchQuery.clear();
     });
@@ -2443,8 +2454,7 @@ class SearchbarProjectState extends State<SearchbarProject> {
     if (actualamount < updatedAmount) {
       originalamount = actualamount;
       commisionamount = updatedAmount;
-    }
-    else {
+    } else {
       originalamount = updatedAmount;
       commisionamount = actualamount;
     }
@@ -2459,16 +2469,15 @@ class SearchbarProjectState extends State<SearchbarProject> {
     print("DATA: " + data.toString());
 
     var jsonResponse = null;
-    http.Response response = await http.post(
-        Network.BaseApi + Network.project_pay, body: data);
+    http.Response response =
+        await http.post(Network.BaseApi + Network.project_pay, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       updateval = response.body; //store response as string
       if (jsonResponse["status"] == false) {
         Navigator.of(context, rootNavigator: true).pop();
         errorDialog(jsonDecode(updateval)["message"]);
-      }
-      else {
+      } else {
         Navigator.of(context, rootNavigator: true).pop();
         if (jsonResponse != null) {
           AmountController.text = "";
@@ -2479,8 +2488,8 @@ class SearchbarProjectState extends State<SearchbarProject> {
                     data: jsonDecode(updateval)["data"]["id"].toString(),
                     amount: commisionamount.toString(),
                     coming: "pjt",
-                    backto: "Project"
-                ), context);
+                    backto: "Project"),
+                context);
           });
           /*showDialog(
             context: context,
@@ -2555,7 +2564,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
     }
   }
 
-
   _onKeyPress(VirtualKeyboardKey key) {
     if (key.keyType == VirtualKeyboardKeyType.String) {
       text = text + (shiftEnabledProjectname ? key.capsText : key.text);
@@ -2577,5 +2585,6 @@ class SearchbarProjectState extends State<SearchbarProject> {
         default:
       }
     }
+    getdata(userid, text);
   }
 }
