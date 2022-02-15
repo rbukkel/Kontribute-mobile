@@ -47,7 +47,8 @@ class ConnectionsState extends State<Connections> {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             toolbarHeight: SizeConfig.blockSizeVertical *18,
-            title: Container(
+            title:
+            Container(
               child: Text(
                'mynetwork'.tr,
                 textAlign: TextAlign.center,

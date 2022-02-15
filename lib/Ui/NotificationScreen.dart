@@ -981,7 +981,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                     Container(
                                                       width: SizeConfig
                                                               .blockSizeHorizontal *
-                                                          40,
+                                                          42,
                                                       margin: EdgeInsets.only(
                                                           top: SizeConfig
                                                                   .blockSizeVertical *

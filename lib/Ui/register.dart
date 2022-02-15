@@ -17,6 +17,7 @@ import 'package:kontribute/Pojo/CountrylistPojo.dart';
 import 'package:kontribute/Pojo/ResutPush.dart';
 import 'package:kontribute/Pojo/NationalitylistPojo.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Terms.dart';
 import 'package:kontribute/Ui/ContactFromKontribute.dart';
 import 'package:kontribute/Ui/Contactlis.dart';
 import 'package:kontribute/Ui/selectlangauge.dart';
@@ -1530,7 +1531,9 @@ class registerState extends State<register> {
                                       fontFamily: 'Montserrat')),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                callNext(Terms(data: "Register"), context);
+                              },
                               child: Container(
                                 child: Text(" " + StringConstant.condition,
                                     style: TextStyle(

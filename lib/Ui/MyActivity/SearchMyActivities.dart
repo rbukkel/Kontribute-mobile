@@ -42,6 +42,7 @@ import 'package:http/http.dart' as http;
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:share/share.dart';
 import 'package:get/get.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 class SearchMyActivities extends StatefulWidget {
   @override
@@ -70,7 +71,10 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
   myactivitiesinvitepojo listinginvite;
   String textHolder="0";
   int mutliply;
-
+  bool shiftEnabledProjectname = false;
+  bool showkeyboardProjectname = false;
+  bool isNumericMode = false;
+  String text = '';
   int amount;
   int amoun;
   String vallike;
@@ -125,6 +129,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
   String deleteticket;
   String onchangeval = "";
   String valcommision;
+  String activeLanguage;
   var commisionlist_length;
   commisionpojo commission;
   double totalamount;
@@ -198,6 +203,16 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
         getCommision();
         print("Login userid: " + userid.toString());
       });
+    });
+
+    SharedUtils.readLangaunage("Langauge").then((val) {
+      if (val == null || val == "") {
+        activeLanguage = "English";
+        print("Login : " + activeLanguage.toString());
+      } else {
+        activeLanguage = val;
+        print("Login Langauge: " + activeLanguage.toString());
+      }
     });
   }
 
@@ -1424,6 +1439,122 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
     );
   }
 
+  _onKeyPress(VirtualKeyboardKey key) {
+    if (key.keyType == VirtualKeyboardKeyType.String) {
+      text = text + (shiftEnabledProjectname ? key.capsText : key.text);
+    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+      switch (key.action) {
+        case VirtualKeyboardKeyAction.Backspace:
+          if (text.length == 0) return;
+          text = text.substring(0, text.length - 1);
+          break;
+        case VirtualKeyboardKeyAction.Return:
+          text = text + '\n';
+          break;
+        case VirtualKeyboardKeyAction.Space:
+          text = text + key.text;
+          break;
+        case VirtualKeyboardKeyAction.Shift:
+          shiftEnabledProjectname = !shiftEnabledProjectname;
+          break;
+        default:
+      }
+    }
+
+    setState(() {
+      getsortdata(userid, tabValue, text);
+    });
+  }
+
+
+  _modalBottomSheetMenu() {
+    return showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(00.0),
+        ),
+        context: context,
+        builder: (builder) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Container(
+                height: 300, //could change this to Color(0xFF737373),
+                child: Column(
+                  children: [
+                    showkeyboardProjectname == true
+                        ? Container(
+                      color: Colors.white54,
+                      child: VirtualKeyboard(
+                          height: 250,
+                          textColor: Colors.black,
+                          textController: _searchQuery,
+
+                          defaultLayouts: [
+                            // VirtualKeyboardDefaultLayouts.English,
+                            VirtualKeyboardDefaultLayouts.Arabic
+                          ],
+                          //reverseLayout :true,
+                          type: isNumericMode
+                              ? VirtualKeyboardType.Numeric
+                              : VirtualKeyboardType.Alphanumeric,
+                          onKeyPress: _onKeyPress),
+                    )
+                        : Container(),
+                    GestureDetector(
+                      onTap: ()
+                      {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal * 20,
+                        margin: EdgeInsets.only(
+                            right: SizeConfig
+                                .blockSizeHorizontal *
+                                3),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(
+                            right: SizeConfig
+                                .blockSizeHorizontal *
+                                2,
+                            left: SizeConfig
+                                .blockSizeHorizontal *
+                                2,
+                            bottom: SizeConfig
+                                .blockSizeHorizontal *
+                                2,
+                            top: SizeConfig
+                                .blockSizeHorizontal *
+                                2),
+                        decoration: BoxDecoration(
+                            color: AppColors
+                                .whiteColor,
+                            borderRadius:
+                            BorderRadius
+                                .circular(20),
+                            border: Border.all(
+                                color: AppColors
+                                    .black)),
+                        child: Text(
+                          "Done",
+                          textAlign:
+                          TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 1.0,
+                              color:
+                              AppColors.black,
+                              fontSize: 9,
+                              fontWeight:
+                              FontWeight.bold,
+                              fontFamily:
+                              'Poppins-Regular'),
+                        ),
+                      ),
+                    )
+                  ],
+                ));
+          });
+        });
+  }
+
+
   Widget buildBar(BuildContext context) {
     return new AppBar(
         centerTitle: true,
@@ -1435,6 +1566,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
           fit: BoxFit.cover,
         ),
         actions: <Widget>[
+          activeLanguage =="English"?
           new IconButton(
             icon: actionIcon,
             onPressed: () {
@@ -1456,6 +1588,82 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                     },
                     decoration: new InputDecoration(
                         //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText: 'searchhere'.tr,
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+              });
+            },
+          ):
+          activeLanguage =="Arabic"?
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextFormField(
+                    onTap: () => setState(() {
+                      showkeyboardProjectname = true;
+                      _modalBottomSheetMenu();
+                    }),
+                    enableInteractiveSelection: true,
+                    toolbarOptions: ToolbarOptions(
+                      copy: true,
+                      cut: true,
+                      paste: true,
+                      selectAll: true,
+                    ),
+                    autofocus: false,
+                    readOnly: true,
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        getsortdata(userid, tabValue, value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText: 'searchhere'.tr,
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+              });
+            },
+          ):
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  );
+                  this.appBarTitle = new TextField(
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        getsortdata(userid, tabValue, value);
+                      });
+                    },
+                    decoration: new InputDecoration(
+                      //prefixIcon: new Icon(Icons.search, color: Colors.white),
                         hintText: 'searchhere'.tr,
                         hintStyle: new TextStyle(color: Colors.white)),
                   );
@@ -1496,9 +1704,10 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
       body: Container(
           height: double.infinity,
           color: AppColors.shadow,
-          child: Column(
-            children: [
+          child:
 
+          Column(
+            children: [
               receivefrom == "project"
                   ? storelist_length != null
                       ? Expanded(
@@ -2917,9 +3126,7 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                                                 context);
                                                           },
                                                           child: Container(
-                                                            height: SizeConfig
-                                                                    .blockSizeVertical *
-                                                                9,
+                                                            height: SizeConfig.blockSizeVertical * 9,
                                                             width: SizeConfig
                                                                     .blockSizeVertical *
                                                                 9,
@@ -7297,7 +7504,11 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                             )
                                       : Container()
             ],
-          )),
+          )
+
+      ),
+
+
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: IconThemeData(size: 22.0),

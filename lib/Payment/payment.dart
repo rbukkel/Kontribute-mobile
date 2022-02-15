@@ -148,7 +148,8 @@ class _payment  extends State<payment>{
           backgroundColor: AppColors.themecolor,
         ),
         body: Builder(builder: (BuildContext context) {
-          return WebView(
+          return
+            WebView(
             initialUrl: Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid,
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) => _controller.complete(webViewController),

@@ -654,18 +654,13 @@ class WalletScreenPageState extends State<WalletScreenPage> {
                                   Row(
                                     children: [
                                       Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 55,
+                                        width: SizeConfig.blockSizeHorizontal * 55,
                                         alignment: Alignment.topLeft,
                                         padding: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    1,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
+                                            left: SizeConfig.blockSizeHorizontal * 1,
+                                            right: SizeConfig.blockSizeHorizontal *
                                                     3,
-                                            top:
-                                                SizeConfig.blockSizeHorizontal *
+                                            top: SizeConfig.blockSizeHorizontal *
                                                     2),
                                         child: Text(
                                           "5March, 18:33",
@@ -678,17 +673,12 @@ class WalletScreenPageState extends State<WalletScreenPage> {
                                         ),
                                       ),
                                       Container(
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 20,
+                                        width: SizeConfig.blockSizeHorizontal * 20,
                                         alignment: Alignment.topRight,
                                         padding: EdgeInsets.only(
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              2,
-                                          top: SizeConfig.blockSizeHorizontal *
-                                              2,
-                                          right:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  3,
+                                          left: SizeConfig.blockSizeHorizontal * 2,
+                                          top: SizeConfig.blockSizeHorizontal * 2,
+                                          right: SizeConfig.blockSizeHorizontal * 3,
                                         ),
                                         child: Text(
                                           "USD",
