@@ -110,11 +110,20 @@ class TermsState extends State<Terms> {
       ),
       body:  Builder(builder: (BuildContext context) {
         return
-          WebView(
-            initialUrl: "https://kontribute.biz/public/html/t&c.html",
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) => _controller.complete(webViewController),
-            /*  navigationDelegate: (NavigationRequest request) {
+
+
+        Container(
+
+
+          child:Column(
+            children: [
+              Container(
+                height: SizeConfig.blockSizeHorizontal*150,
+                child:WebView(
+                  initialUrl: "https://kontribute.biz/public/html/t&c.html",
+                  javascriptMode: JavascriptMode.unrestricted,
+                  onWebViewCreated: (WebViewController webViewController) => _controller.complete(webViewController),
+                  /*  navigationDelegate: (NavigationRequest request) {
                       print(request);
                       print(request.url);
                       if (request.url.startsWith('http://kontribute.biz/paypal_status')) {
@@ -146,7 +155,20 @@ class TermsState extends State<Terms> {
                       }
                       return NavigationDecision.navigate;
                     },*/
-          );
+                ),
+              ),
+
+
+              CheckTems()
+            ],
+
+
+          )
+
+
+        );
+
+
       }),
      // bottomNavigationBar: CheckTems()
 
@@ -217,8 +239,8 @@ class TermsState extends State<Terms> {
   CheckTems() {
     return
       Container(
-        height: SizeConfig.blockSizeVertical * 20,
-        color: AppColors.whiteColor,
+
+
         child: Column(
           children: [
             Container(

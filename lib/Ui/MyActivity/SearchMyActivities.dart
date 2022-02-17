@@ -2991,7 +2991,6 @@ class SearchMyActivitiesState extends State<SearchMyActivities> {
                                     if (!listingdonation.result.elementAt(index).profilePic.startsWith("https://"))
                                     {
                                       donationimage=Network.BaseApiprofile+listingdonation.result.elementAt(index).profilePic;
-
                                     }
                                     else
                                     {
