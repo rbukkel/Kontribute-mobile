@@ -319,12 +319,18 @@ class OngoingProjectDetailsscreenState
           setState(() {
             productlist_length = projectdetailspojo.commentsdata;
             storelist_length = projectdetailspojo.commentsdata.commentslist;
-            imageslist_length = projectdetailspojo.commentsdata.projectimagesdata;
+            imageslist_length =
+                projectdetailspojo.commentsdata.projectimagesdata;
             documentlist_length = projectdetailspojo.commentsdata.documents;
             videolist_length = projectdetailspojo.commentsdata.videoLink;
-            paymentdetails_length = projectdetailspojo.commentsdata.projectpaymentdetails;
-            double amount = double.parse(projectdetailspojo.commentsdata.totalcollectedamount.toString()) /
-            double.parse(projectdetailspojo.commentsdata.budget.toString()) * 100;
+            paymentdetails_length =
+                projectdetailspojo.commentsdata.projectpaymentdetails;
+            double amount = double.parse(projectdetailspojo
+                    .commentsdata.totalcollectedamount
+                    .toString()) /
+                double.parse(
+                    projectdetailspojo.commentsdata.budget.toString()) *
+                100;
             amoun = amount.toInt();
             print("Amountval: " + amoun.toString());
             reverid = projectdetailspojo.commentsdata.userId.toString();
@@ -2009,7 +2015,11 @@ class OngoingProjectDetailsscreenState
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Poppins-Regular'),
                                       ),
-                                      Text(" " + (projectdetailspojo.commentsdata.commentslist.length).toString() +
+                                      Text(
+                                        " " +
+                                            (projectdetailspojo.commentsdata
+                                                    .commentslist.length)
+                                                .toString() +
                                             " ",
                                         maxLines: 2,
                                         style: TextStyle(
@@ -2126,20 +2136,26 @@ class OngoingProjectDetailsscreenState
                                   color: Colors.black12,
                                 ),
                               ),
-                              projectdetailspojo.commentsdata.userId.toString() == userid ? Container()
+                              projectdetailspojo.commentsdata.userId
+                                          .toString() ==
+                                      userid
+                                  ? Container()
                                   : Column(
                                       children: [
                                         Container(
                                           padding: EdgeInsets.only(
-                                            left: SizeConfig.blockSizeHorizontal * 2,
-                                            right: SizeConfig.blockSizeHorizontal * 2,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
+                                            right:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    2,
                                           ),
                                           alignment: Alignment.centerLeft,
                                           child: TextFormField(
-                                            onTap: () =>
-                                              setState(() {
-                                                showkeyboard = true;
-                                              }),
+                                            onTap: () => setState(() {
+                                              showkeyboard = true;
+                                            }),
                                             enableInteractiveSelection: true,
                                             toolbarOptions: ToolbarOptions(
                                               copy: true,
@@ -2151,7 +2167,8 @@ class OngoingProjectDetailsscreenState
                                             readOnly: true,
                                             focusNode: CommentFocus,
                                             controller: CommentController,
-                                            textInputAction: TextInputAction.done,
+                                            textInputAction:
+                                                TextInputAction.done,
                                             keyboardType: TextInputType.text,
                                             maxLines: 10,
                                             validator: (val) {
@@ -2191,22 +2208,29 @@ class OngoingProjectDetailsscreenState
                                             maintainAnimation: true,
                                             maintainState: true,
                                             child: Container()),
-                                     showkeyboard == true? Container(
-                                       color: Colors.white54,
-                                       child: VirtualKeyboard(
-                                           height: 250,
-                                           textColor: Colors.black,
-                                           textController: CommentController,
-                                           defaultLayouts: [
-                                             VirtualKeyboardDefaultLayouts.English,
-                                             VirtualKeyboardDefaultLayouts.Arabic
-                                           ],
-                                           //reverseLayout :true,
-                                           type: isNumericMode
-                                               ? VirtualKeyboardType.Numeric
-                                               : VirtualKeyboardType.Alphanumeric,
-                                           onKeyPress: _onKeyPress),
-                                     ):Container(),
+                                        showkeyboard == true
+                                            ? Container(
+                                                color: Colors.white54,
+                                                child: VirtualKeyboard(
+                                                    height: 250,
+                                                    textColor: Colors.black,
+                                                    textController:
+                                                        CommentController,
+                                                    defaultLayouts: [
+                                                      VirtualKeyboardDefaultLayouts
+                                                          .English,
+                                                      VirtualKeyboardDefaultLayouts
+                                                          .Arabic
+                                                    ],
+                                                    //reverseLayout :true,
+                                                    type: isNumericMode
+                                                        ? VirtualKeyboardType
+                                                            .Numeric
+                                                        : VirtualKeyboardType
+                                                            .Alphanumeric,
+                                                    onKeyPress: _onKeyPress),
+                                              )
+                                            : Container(),
                                         GestureDetector(
                                           onTap: () {
                                             addPost(CommentController.text);
@@ -2214,12 +2238,20 @@ class OngoingProjectDetailsscreenState
                                             showkeyboard = false;
                                           },
                                           child: Container(
-                                            width: SizeConfig.blockSizeHorizontal * 100,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    100,
                                             alignment: Alignment.topRight,
                                             margin: EdgeInsets.only(
-                                                left: SizeConfig.blockSizeHorizontal * 3,
-                                                right: SizeConfig.blockSizeHorizontal *5,
-                                                top: SizeConfig.blockSizeVertical *1),
+                                                left: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    3,
+                                                right: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    5,
+                                                top: SizeConfig
+                                                        .blockSizeVertical *
+                                                    1),
                                             child: Text(
                                               'post'.tr,
                                               style: TextStyle(
@@ -2234,7 +2266,8 @@ class OngoingProjectDetailsscreenState
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(
-                                              top: SizeConfig.blockSizeVertical *
+                                              top:
+                                                  SizeConfig.blockSizeVertical *
                                                       2),
                                           child: Divider(
                                             thickness: 1,
@@ -3126,7 +3159,7 @@ class OngoingProjectDetailsscreenState
           ),
           context: context,
           builder: (builder) {
-            return  StatefulBuilder(builder: (context, setState) {
+            return StatefulBuilder(builder: (context, setState) {
               return Container(
                   height: MediaQuery.of(context).size.height * 50,
                   child: Container(

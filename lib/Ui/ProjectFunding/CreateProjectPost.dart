@@ -1032,6 +1032,7 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       readOnly: true,
                                       maxLines: 4,
                                       focusNode: DescriptionFocus,
+
                                       controller: DescriptionController,
                                       textInputAction: TextInputAction.next,
                                       keyboardType: TextInputType.text,
@@ -1064,6 +1065,13 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                         ),
                                       ),
                                     ),
+
+
+
+
+
+
+
                                     GestureDetector(
                                       onTap: () {
                                         if(VirtualKeyboardDefaultLayouts.Arabic == true)
@@ -1121,6 +1129,44 @@ class CreateProjectPostState extends State<CreateProjectPost> {
                                       : VirtualKeyboardType.Alphanumeric,
                                   onKeyPress: _onKeyPress),
                             ):Container(),
+
+                            GestureDetector(
+                              onTap: () {
+                                print('createprojectpostarabic');
+                                showkeyboardProjectname = false;
+                                showkeyboardDescription = false;
+                                showkeyboardTermsAndCondition = false;
+
+                              },
+                              child: Container(
+                                width:
+                                SizeConfig.blockSizeHorizontal *
+                                    100,
+                                alignment: Alignment.topRight,
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig
+                                        .blockSizeHorizontal *
+                                        3,
+                                    right: SizeConfig
+                                        .blockSizeHorizontal *
+                                        5,
+                                    top: SizeConfig
+                                        .blockSizeVertical *
+                                        1),
+                                child: Text(
+                                  'post'.tr,
+                                  style: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: AppColors.themecolor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily:
+                                      'Poppins-Regular'),
+                                ),
+                              ),
+                            ),
+
+
                             Container(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
