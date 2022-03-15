@@ -821,27 +821,6 @@ class loginState extends State<login>{
     }
   }
 
- /* void signInWithTwitter() async {
-    final TwitterLoginResult result = await twitterLogin.authorize();
-    String newMessage;
-    if (result.status == TwitterLoginStatus.loggedIn) {
-     // _signInWithTwitter(result.session.token, result.session.secret);
-    } else if (result.status == TwitterLoginStatus.cancelledByUser) {
-      newMessage = 'Login cancelled by user.';
-    } else {
-      newMessage = result.errorMessage;
-    }
-    setState(() {
-      message = newMessage;
-    });
-  }*/
-
- /* void _signInWithTwitter(String token, String secret) async {
-    final AuthCredential credential = TwitterAuthProvider.getCredential(
-        authToken: token, authTokenSecret: secret);
-    await _authtwitter.signInWithCredential(credential);
-  }*/
-
   signIn(String emal,String pass,String token) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {

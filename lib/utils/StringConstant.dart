@@ -171,6 +171,9 @@ class StringConstant {
   static const String receiverequest="Receive Request";
   static const String sendrequest="Send Request";
   static const String myconnections="My Connections";
+  static const String programtoken="prg-e6f3a089-3f5d-4316-b295-2973b2ea2cee";
+  static const String hyperwalletusername="restapiuser@130782021617";
+  static const String hyperwalletpassword="Rbukkel@123456";
 
 
 }

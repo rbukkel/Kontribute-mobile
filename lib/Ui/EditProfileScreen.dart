@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:kontribute/Pojo/User_pojo.dart';
 import 'package:kontribute/Ui/ProfileScreen.dart';
 import 'package:kontribute/utils/Network.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +36,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   final NickNameFocus = FocusNode();
   final FullNameFocus = FocusNode();
+  final lastNameFocus = FocusNode();
   final EmailFocus = FocusNode();
   final DateofbirthFocus = FocusNode();
   final MobileFocus = FocusNode();
@@ -42,20 +44,26 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   final CompanynameFocus = FocusNode();
   final NatinalityFocus = FocusNode();
   final CurrentCountryFocus = FocusNode();
+  final postalcodeFocus = FocusNode();
+  final cityFocus = FocusNode();
+  final addressFocus = FocusNode();
+  final stateFocus = FocusNode();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController nicknameController = new TextEditingController();
   final TextEditingController fullnameController = new TextEditingController();
+  final TextEditingController lastnameController = new TextEditingController();
   final TextEditingController mobileController = new TextEditingController();
   final TextEditingController CountryController = new TextEditingController();
-  final TextEditingController dateofbirthController =
-      new TextEditingController();
-  final TextEditingController companynameController =
-      new TextEditingController();
-  final TextEditingController natinalityController =
-      new TextEditingController();
-  final TextEditingController currentCountryController =
-      new TextEditingController();
+  final TextEditingController dateofbirthController = new TextEditingController();
+  final TextEditingController companynameController = new TextEditingController();
+  final TextEditingController natinalityController = new TextEditingController();
+  final TextEditingController currentCountryController = new TextEditingController();
+  final TextEditingController postalcodeController = new TextEditingController();
+  final TextEditingController cityController = new TextEditingController();
+  final TextEditingController addressController = new TextEditingController();
+  final TextEditingController statesController = new TextEditingController();
+  UserPojo userPojo;
   File _imageFile;
   bool image_value = false;
   bool _showPassword = false;
@@ -69,8 +77,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   String _currentCountry;
   String _Country;
   String userid;
+  String hyperwalletuserid;
   String data1;
   String countrycode;
+  String countrycode2digit;
   String mobile;
   bool internet = false;
   int a;
@@ -86,6 +96,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   bool selected = false;
   bool selectedit = false;
   final _formmainKey = GlobalKey<FormState>();
+  String programtoken = "prg-b8828386-e4d2-40fb-afb3-57d298729759";
+  String username = 'restapiuser@130393261610';
+  String password = 'rohit_knickglobal@123';
+
+
+
 
   Future<void> captureImage(ImageSource imageSource) async {
     if (imageSource == ImageSource.camera) {
@@ -152,6 +168,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       userid = val;
       print("Login userid: " + userid.toString());
     });
+    SharedUtils.readhyperwalletuserid("hyperwalletuserId").then((val) {
+      hyperwalletuserid = val;
+      if(hyperwalletuserid.toString()!="null"){
+        print("Login userid: " + hyperwalletuserid.toString());
+      }
+    });
+
 
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
@@ -300,6 +323,31 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             } else {
               currentCountryController.text =
                   loginResponse.resultPush.currentCountry;
+            }
+            if (loginResponse.resultPush.postalCode == "") {
+              postalcodeController.text = "";
+            } else {
+              postalcodeController.text =
+                  loginResponse.resultPush.postalCode;
+            }
+
+            if (loginResponse.resultPush.city == "") {
+              cityController.text = "";
+            } else {
+              cityController.text =
+                  loginResponse.resultPush.city;
+            }
+            if (loginResponse.resultPush.addressLine1 == "") {
+              addressController.text = "";
+            } else {
+              addressController.text =
+                  loginResponse.resultPush.addressLine1;
+            }
+            if (loginResponse.resultPush.stateProvince == "") {
+              statesController.text = "";
+            } else {
+              statesController.text =
+                  loginResponse.resultPush.stateProvince;
             }
 
             if(loginResponse.resultPush.facebookId== null)
@@ -747,7 +795,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: SizeConfig.blockSizeHorizontal * 35,
                                   child: Text(
-                                    'fullname'.tr,
+                                    'firstname'.tr,
                                     style: TextStyle(
                                         letterSpacing: 1.0,
                                         color: Colors.black,
@@ -771,7 +819,75 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                     keyboardType: TextInputType.name,
                                     validator: (val) {
                                       if (val.length == 0)
-                                        return 'pleaseenterfullname'.tr;
+                                        return 'pleaseenterfirstname'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context)
+                                          .requestFocus(EmailFocus);
+                                    },
+                                    onSaved: (val) => _fullname = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'lastname'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: lastNameFocus,
+                                    controller: lastnameController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'enterlastname'.tr;
                                       else
                                         return null;
                                     },
@@ -1223,6 +1339,268 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                   ),
                                 )
                               ],
+                            ),Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'postalcode'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: postalcodeFocus,
+                                    controller: postalcodeController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseenterpostalcode'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      postalcodeFocus.unfocus();
+                                    },
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'city'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: cityFocus,
+                                    controller: cityController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseentercurrentcity'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      CurrentCountryFocus.unfocus();
+                                    },
+                                    onSaved: (val) => _currentCountry = val,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'address'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: addressFocus,
+                                    controller: addressController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseentercurrentaddress'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      addressFocus.unfocus();
+                                    },
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: Text(
+                                    'state'.tr,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 2,
+                                      top: SizeConfig.blockSizeVertical * 2),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  alignment: Alignment.topLeft,
+                                  child: TextFormField(
+                                    autofocus: false,
+                                    focusNode: stateFocus,
+                                    controller: statesController,
+                                    cursorColor: AppColors.selectedcolor,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.name,
+                                    validator: (val) {
+                                      if (val.length == 0)
+                                        return 'pleaseentercurrentstate'.tr;
+                                      else
+                                        return null;
+                                    },
+                                    onFieldSubmitted: (v) {
+                                      stateFocus.unfocus();
+                                    },
+
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      focusColor: AppColors.selectedcolor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.light_grey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColors.selectedcolor),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                             GestureDetector(
                               onTap: () {
@@ -1232,11 +1610,17 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                   });
                                   Internet_check().check().then((intenet) {
                                     if (intenet != null && intenet) {
-                                      if(mobile==null || mobile ==" " && countrycode==null || countrycode=="")
+
+                                      print("Hyperwallert user id:-"+hyperwalletuserid.toString());
+
+                                      if(hyperwalletuserid.toString()=="null" || hyperwalletuserid==""){
+                                        createhyperawalletuser();
+                                      }else{
+                                        if(mobile==null || mobile ==" " && countrycode==null || countrycode=="")
                                         {
                                           updateprofile(
                                               userid,
-                                              fullnameController.text,
+                                              fullnameController.text+lastnameController.text,
                                               nicknameController.text,
                                               mobileController.text,
                                               CountryController.text,
@@ -1244,20 +1628,31 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                               natinalityController.text,
                                               currentCountryController.text,
                                               token,
-                                              _imageFile);
+                                              _imageFile,
+                                              postalcodeController.text,
+                                              cityController.text,
+                                              addressController.text,
+                                              statesController.text
+                                          );
                                         }
-                                      else{
-                                        updateprofile(
-                                            userid,
-                                            fullnameController.text,
-                                            nicknameController.text,
-                                            mobile,
-                                            countrycode,
-                                            dateofbirthController.text,
-                                            natinalityController.text,
-                                            currentCountryController.text,
-                                            token,
-                                            _imageFile);
+                                        else{
+                                          updateprofile(
+                                              userid,
+                                              fullnameController.text+lastnameController.text,
+                                              nicknameController.text,
+                                              mobile,
+                                              countrycode,
+                                              dateofbirthController.text,
+                                              natinalityController.text,
+                                              currentCountryController.text,
+                                              token,
+                                              _imageFile,
+                                              postalcodeController.text,
+                                              cityController.text,
+                                              addressController.text,
+                                              statesController.text
+                                          );
+                                        }
                                       }
                                     } else {
                                       errorDialog('nointernetconnection'.tr);
@@ -1568,6 +1963,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 hintText: StringConstant.mobile,
               ),
+
               style: TextStyle(
                   letterSpacing: 1.0,
                   fontWeight: FontWeight.normal,
@@ -1579,15 +1975,133 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 setState(() {
                   mobile = phone.number;
                   countrycode = phone.countryCode;
+                  countrycode2digit=phone.countryISOCode;
                   //when phone number country code is changed
                   print(phone.completeNumber); //get complete number
-                  print(phone.countryCode); // get country code only
+                  print("Country Dial code:-"+phone.countryCode); // get country code only
+                  print("Country code:-"+countrycode2digit); // get country code only
                   print(phone.number); // only phone number
                 });
               },
             ))
       ],
     );
+  }
+
+
+  void createhyperawalletuser() async {
+    print("Api Call");
+    Dialogs.showLoadingDialog(context, _keyLoader);
+
+    String username = StringConstant.hyperwalletusername;
+    String password = StringConstant.hyperwalletpassword;
+
+    String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'authorization': basicAuth
+    };
+    final bodynew = jsonEncode({
+      'clientUserId': a.toString(),
+      'profileType': "INDIVIDUAL",
+      'firstName': fullnameController.text,
+      'lastName': lastnameController.text,
+      'dateOfBirth': dateofbirthController.text,
+      'email': emailController.text,
+      'addressLine1': addressController.text,
+      'city': cityController.text,
+      'stateProvince': statesController.text,
+      'country': countrycode2digit,
+      // 'country': currentCountryController.text,
+      'postalCode': postalcodeController.text,
+      'programToken': StringConstant.programtoken,
+    }
+    );
+    print("body:-"+bodynew);
+
+    var jsonResponse = null;
+    http.Response response = await http.post("https://api.sandbox.hyperwallet.com/rest/v3/users",body: bodynew,headers: headers,);
+    jsonResponse = json.decode(response.body);
+    print("Response1:-"+jsonResponse.toString());
+
+    if (response.statusCode == 201) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      print("Response2:-"+jsonResponse.toString());
+      if (jsonResponse != null) {
+        userPojo=new UserPojo.fromJson(jsonResponse);
+        print('user id is in Response'+userPojo.token);
+        // savesharedpreference(userPojo.token,userPojo.firstName,userPojo.lastName,userPojo.addressLine1);
+
+        SharedUtils.savehyperwalletuserid("hyperwalletuserId",userPojo.token.toString());
+        Fluttertoast.showToast(
+            msg: "Account Created Successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+
+        print("Response4:-"+jsonResponse.toString());
+
+        if(mobile==null || mobile ==" " && countrycode==null || countrycode=="")
+        {
+          updateprofile(
+              userid,
+              fullnameController.text,
+              nicknameController.text,
+              mobileController.text,
+              CountryController.text,
+              dateofbirthController.text,
+              natinalityController.text,
+              currentCountryController.text,
+              token,
+              _imageFile,
+              postalcodeController.text,
+              cityController.text,
+              addressController.text,
+              statesController.text
+          );
+        }
+        else{
+          updateprofile(
+              userid,
+              fullnameController.text,
+              nicknameController.text,
+              mobile,
+              countrycode,
+              dateofbirthController.text,
+              natinalityController.text,
+              currentCountryController.text,
+              token,
+              _imageFile,
+              postalcodeController.text,
+              cityController.text,
+              addressController.text,
+              statesController.text
+          );
+        }
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Home_screen()));
+      }
+
+      else {
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+        print("Response5:-"+jsonResponse.toString());
+
+      }
+    } else {
+      print("Response6:-"+jsonResponse.toString());
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg:jsonResponse["errors"][0]["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
   }
 
   void updateprofile(
@@ -1600,7 +2114,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       String nation,
       String country,
       String tken,
-      File imageFile) async {
+      File imageFile,
+      String postalcode,
+      String city,
+      String address,
+      String state
+      ) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest(
@@ -1615,9 +2134,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     request.fields["current_country"] = country;
     request.fields["mobile_token"] = tken;
     request.fields["country_code"] = code;
+    request.fields["hyperwallet_id"] = hyperwalletuserid;
+    request.fields["city"] = city;
+    request.fields["addressLine1"] = address;
+    request.fields["stateProvince"] = state;
+    request.fields["postalCode"] = postalcode;
     print("Request: " + request.fields.toString());
-
     if (imageFile != null) {
+      print("Imagefile:-"+imageFile.toString());
       print("PATH: " + imageFile.path);
       request.files.add(await http.MultipartFile.fromPath(
           "profile_pic", imageFile.path,

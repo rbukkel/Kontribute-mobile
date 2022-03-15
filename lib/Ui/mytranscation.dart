@@ -293,7 +293,6 @@ class mytranscationState extends State<mytranscation> {
                       paid = false;
                       receive = true;
                     });
-
                     print("Value: " + tabvalue);
                   },
                   child: Container(

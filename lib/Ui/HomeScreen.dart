@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/Notificationpojo.dart';
 import 'package:kontribute/Pojo/bannerpojo.dart';
+import 'package:kontribute/Pojo/gethyperwalletPojo.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
@@ -26,6 +28,7 @@ import 'package:kontribute/utils/Network.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Tickets/TicketOngoingEventsDetailsscreen.dart';
 
@@ -48,7 +51,8 @@ class HomeScreenState extends State<HomeScreen> {
   bool event = false;
   bool ticket = false;
   String valcat;
-
+  bool resultvalue;
+  GethyperwalletPojo _gethyperwalletPojo;
 
   final List<Widget> introWidgetsList = <Widget>[
     Image.asset(
@@ -86,6 +90,7 @@ class HomeScreenState extends State<HomeScreen> {
   var bannerDonation_length;
   var bannerEvent_length;
   var bannerTicket_length;
+  GlobalKey<State>keylogger = new GlobalKey<State>();
 
   Widget _renderItem(BuildContext context, int index) {
     return Image(
@@ -113,6 +118,7 @@ class HomeScreenState extends State<HomeScreen> {
     Internet_check().check().then((intenet) {
       if (intenet != null && intenet) {
         getBanners();
+        gethyperwalletid(userid);
         setState(() {
           internet = true;
         });
@@ -124,6 +130,8 @@ class HomeScreenState extends State<HomeScreen> {
       }
     });
   }
+
+
 
   void getSUBdata(String user_id) async {
     Map data = {
@@ -1289,4 +1297,87 @@ class HomeScreenState extends State<HomeScreen> {
     currentPageValue = page;
     setState(() {});
   }
+
+  Future<void> gethyperwalletid(String userid) async {
+    Dialogs.showLoadingDialog(context, keylogger);
+    print("Api Call");
+    Map data = {
+      "userid":userid,
+
+    };
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.getHyperwalletid, body: data);
+    jsonResponse = json.decode(response.body);
+
+    print("Response:-" + jsonResponse.toString());
+
+    if (response.statusCode == 200) {
+      if (jsonResponse["status"] == false) {
+        Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+        resultvalue = true;
+        print("Response:-" + jsonResponse.toString());
+      } else {
+        if (jsonResponse != null) {
+          print("Response:-" + jsonResponse.toString());
+          Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+          resultvalue = true;
+          setState(() {
+            _gethyperwalletPojo=GethyperwalletPojo.fromJson(jsonResponse);
+
+           /*
+            print("Hyperwallet user id:-"+hyperwalletuserid.toString());
+            SharedUtils.savehyperwalletuserid("hyperwalletuserId",hyperwalletuserid);
+            print('saved hyper id is :'+SharedUtils.readhyperwalletuserid('hyperwalletuserId').toString());
+            SharedUtils.savebankstatus("hyperwalletuserId",_gethyperwalletPojo.data.bankStatus.toString());
+            */
+            getsharedpreference();
+          });
+
+
+
+        } else {
+          resultvalue = true;
+          print("Response:-" + jsonResponse.toString());
+          Fluttertoast.showToast(
+            msg: jsonResponse["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+          Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+        }
+      }
+    } else {
+      resultvalue = true;
+
+      print("Response:-" + jsonResponse.toString());
+      Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+  Future<void> getsharedpreference() async {
+    String hyperwalletuserid=_gethyperwalletPojo.data.hyperwalletId.toString();
+    print(' id is '+hyperwalletuserid);
+    SharedPreferences mPref=await SharedPreferences.getInstance();
+    mPref.setString('hyperwalletuserId',hyperwalletuserid);
+    mPref.setString('bankstatus',_gethyperwalletPojo.data.bankStatus);
+    print('saved id is '+mPref.getString('hyperwalletuserId'));
+  }
 }
+
+

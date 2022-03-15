@@ -49,7 +49,9 @@ class _Drawer_ScreenState extends State<Drawer_Screen> {
         SharedUtils.readloginId("UserId").then((val) {
           print("UserId: " + val);
           userid = val;
-          getData(userid);
+          if(userid!=null){
+            getData(userid);
+          }
           print("Login userid: " + userid.toString());
         });
         setState(() {

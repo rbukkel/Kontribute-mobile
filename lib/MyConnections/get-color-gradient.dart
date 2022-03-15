@@ -7,5 +7,6 @@ LinearGradient getColorGradient(Color color) {
   return LinearGradient(colors: [
     color1,
     color2,
-  ], begin: Alignment.bottomLeft, end: Alignment.topRight);
+  ],
+      begin: Alignment.bottomLeft, end: Alignment.topRight);
 }

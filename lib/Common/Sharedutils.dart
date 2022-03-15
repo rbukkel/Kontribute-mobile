@@ -160,5 +160,14 @@ class SharedUtils {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     return pref.getInt(key);
   }
+  static savehyperwalletuserid(String key, String value) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(key, value);
+  }
+  static readhyperwalletuserid(String key) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(key);
+  }
+
 
 }

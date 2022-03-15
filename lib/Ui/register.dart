@@ -1368,7 +1368,10 @@ class registerState extends State<register> {
                           maintainAnimation: true,
                           maintainState: true,
                           child: Container()),
-                      expandFlag1 == true ? ExpandedCountryview0() : Container(),
+                      expandFlag1 == true ?
+                      ExpandedCountryview0()
+                          :
+                      Container(),
                     /*  Container(
                         height: SizeConfig.blockSizeVertical * 14.5,
                         margin: EdgeInsets.only(

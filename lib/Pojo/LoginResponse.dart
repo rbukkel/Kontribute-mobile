@@ -1,25 +1,25 @@
 class LoginResponse {
-  ResultPush resultPush;
+  bool success;
   String message;
-  bool status;
+  ResultPush resultPush;
 
-  LoginResponse({this.resultPush, this.message, this.status});
+  LoginResponse({this.success, this.message, this.resultPush});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    message = json['message'];
     resultPush = json['result_push'] != null
         ? new ResultPush.fromJson(json['result_push'])
         : null;
-    message = json['message'];
-    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    data['message'] = this.message;
     if (this.resultPush != null) {
       data['result_push'] = this.resultPush.toJson();
     }
-    data['message'] = this.message;
-    data['status'] = this.status;
     return data;
   }
 }
@@ -35,10 +35,15 @@ class ResultPush {
   String nationality;
   String currentCountry;
   String countryCode;
+  String facebookId;
   String profilePic;
   String usertype;
   String mobileToken;
-  String facebookId;
+  String hyperwalletId;
+  String addressLine1;
+  String city;
+  String stateProvince;
+  String postalCode;
 
   ResultPush(
       {this.userId,
@@ -51,10 +56,15 @@ class ResultPush {
         this.nationality,
         this.currentCountry,
         this.countryCode,
+        this.facebookId,
         this.profilePic,
         this.usertype,
         this.mobileToken,
-        this.facebookId});
+        this.hyperwalletId,
+        this.addressLine1,
+        this.city,
+        this.stateProvince,
+        this.postalCode});
 
   ResultPush.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -67,10 +77,15 @@ class ResultPush {
     nationality = json['nationality'];
     currentCountry = json['current_country'];
     countryCode = json['country_code'];
+    facebookId = json['facebook_id'];
     profilePic = json['profile_pic'];
     usertype = json['usertype'];
     mobileToken = json['mobile_token'];
-    facebookId = json['facebook_id'];
+    hyperwalletId = json['hyperwallet_id'];
+    addressLine1 = json['addressLine1'];
+    city = json['city'];
+    stateProvince = json['stateProvince'];
+    postalCode = json['postalCode'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,10 +100,15 @@ class ResultPush {
     data['nationality'] = this.nationality;
     data['current_country'] = this.currentCountry;
     data['country_code'] = this.countryCode;
+    data['facebook_id'] = this.facebookId;
     data['profile_pic'] = this.profilePic;
     data['usertype'] = this.usertype;
     data['mobile_token'] = this.mobileToken;
-    data['facebook_id'] = this.facebookId;
+    data['hyperwallet_id'] = this.hyperwalletId;
+    data['addressLine1'] = this.addressLine1;
+    data['city'] = this.city;
+    data['stateProvince'] = this.stateProvince;
+    data['postalCode'] = this.postalCode;
     return data;
   }
 }

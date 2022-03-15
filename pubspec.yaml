@@ -85,6 +85,8 @@ dependencies:
   flutter_inappwebview: ^4.0.0
   webview_flutter: ^1.0.7
   virtual_keyboard_multi_language: ^0.2.2
+  country_code_picker: ^1.7.0
+
 
 dev_dependencies:
   flutter_test:
@@ -208,6 +210,8 @@ flutter:
     - assets/images/caution.png
     - assets/images/searchbar.png
     - assets/images/spalsh.png
+    - assets/images/addbank_btn.png
+    - assets/images/submitbank_btn.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

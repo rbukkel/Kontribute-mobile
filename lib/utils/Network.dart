@@ -13,8 +13,14 @@ class Network{
   static String sharelinticket = "https://kontribute.biz/api/sharedticket/";
   static String register = "register";
   static String countrylist = "countrylist";
+  static String getHyperwalletid = "getHyperwalletid";
+  static String payments = "payments";
+  static String hyperwallet_baseApi = "https://api.sandbox.hyperwallet.com/rest/v3/";
   static String nationality = "nationality";
   static String login = "login";
+  static String updatebankstatus = "updatebankstatus";
+  static String wallet = "wallet";
+  static String withdrawamount = "withdrawamount";
   static String socailLogin = "socailLogin";
   static String loginrequest = "loginrequest";
   static String forgetPassword_user = "forgetPassword_user";

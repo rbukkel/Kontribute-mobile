@@ -118,7 +118,7 @@ class TermsState extends State<Terms> {
           child:Column(
             children: [
               Container(
-                height: SizeConfig.blockSizeHorizontal*150,
+                height: SizeConfig.blockSizeHorizontal*140,
                 child:WebView(
                   initialUrl: "https://kontribute.biz/public/html/t&c.html",
                   javascriptMode: JavascriptMode.unrestricted,

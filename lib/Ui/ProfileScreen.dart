@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Ui/AddBank.dart';
 import 'package:kontribute/Ui/EditProfileScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/InternetCheck.dart';
@@ -15,6 +16,7 @@ import 'package:kontribute/utils/StringConstant.dart';
 import 'package:kontribute/utils/app.dart';
 import 'package:kontribute/utils/screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -35,10 +37,15 @@ class ProfileScreenState extends State<ProfileScreen> {
   String dob;
   String nationality;
   String country;
+  String address="";
+  String city="";
+  String state="";
+  String postalcode="";
   bool imageUrl = false;
   bool _loading = false;
   String image;
   var storelist_length;
+  String bankstatus,hyperwalletuserid;
 
   @override
   void initState() {
@@ -51,6 +58,13 @@ class ProfileScreenState extends State<ProfileScreen> {
           getData(userid);
           print("Login userid: " + userid.toString());
         });
+        SharedUtils.readhyperwalletuserid("hyperwalletuserId").then((val) {
+          hyperwalletuserid = val;
+          print("Hyperwallet UserId: " + hyperwalletuserid.toString());
+        });
+
+        getsharedpreference();
+
         setState(() {
           internet = true;
         });
@@ -191,6 +205,21 @@ class ProfileScreenState extends State<ProfileScreen> {
               country = "";
             } else {
               country = loginResponse.resultPush.currentCountry;
+            }
+            if (loginResponse.resultPush.addressLine1 == "") {
+              address = "";
+            } else {
+              address = loginResponse.resultPush.addressLine1;
+            }
+            if (loginResponse.resultPush.city == "") {
+              city = "";
+            } else {
+              city = loginResponse.resultPush.city;
+            }
+            if (loginResponse.resultPush.postalCode == "") {
+              postalcode = "";
+            } else {
+              postalcode = loginResponse.resultPush.postalCode;
             }
 
             if(loginResponse.resultPush.facebookId== null)
@@ -638,9 +667,165 @@ class ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ],
+                      ),Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              'address'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              address,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
+                      ),Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              'city'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              city,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
+                      ),Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              'postalcode'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              postalcode,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          if(hyperwalletuserid.toString()=="null" || hyperwalletuserid.toString()==""){
+                              Fluttertoast.showToast(
+                              msg: 'completeyourprofilefirst'.tr,
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                            );
+                          }else{
+                            if(bankstatus==null || bankstatus=="0" || bankstatus==""){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddBank()));
+                            }else{
+                              Fluttertoast.showToast(
+                                msg: 'bankalreadyconnnected'.tr,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                              );
+                            }
+                          }
+                        },
+                        child:  Container(
+                            alignment: Alignment.center,
+                            width: SizeConfig.blockSizeHorizontal * 38,
+                            height: SizeConfig.blockSizeVertical * 7,
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 3,
+                                bottom: SizeConfig.blockSizeVertical * 2,
+                                left: SizeConfig.blockSizeHorizontal *5,
+                                right: SizeConfig.blockSizeHorizontal *5
+
+                            ),
+                            decoration: BoxDecoration(
+                              image: new DecorationImage(
+                                image: new AssetImage("assets/images/sendbutton.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('addbank'.tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Poppins-Regular',
+                                      fontSize: 15,
+                                    )),
+                              ],
+                            )
+                        ),
                       )
                     ],
-                  ))
+                  )
+            )
                 : Container(
                     margin: EdgeInsets.only(top: 150),
                     alignment: Alignment.center,
@@ -653,4 +838,13 @@ class ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+  Future<void> getsharedpreference() async {
+    SharedPreferences sharedPreferences= await SharedPreferences.getInstance();
+    setState(() {
+      bankstatus=sharedPreferences.getString("bankstatus");
+      print("Bank status:-"+bankstatus.toString());
+    });
+  }
 }
+
+
