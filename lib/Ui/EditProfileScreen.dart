@@ -2026,12 +2026,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     print("Response1:-"+jsonResponse.toString());
 
     if (response.statusCode == 201) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       print("Response2:-"+jsonResponse.toString());
       if (jsonResponse != null) {
         userPojo=new UserPojo.fromJson(jsonResponse);
         print('user id is in Response'+userPojo.token);
-        // savesharedpreference(userPojo.token,userPojo.firstName,userPojo.lastName,userPojo.addressLine1);
 
         SharedUtils.savehyperwalletuserid("hyperwalletuserId",userPojo.token.toString());
         Fluttertoast.showToast(

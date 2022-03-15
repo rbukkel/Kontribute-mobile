@@ -62,6 +62,7 @@ class WalletScreenState extends State<WalletScreen> {
   String walletbalance = "";
   var languageselect = 1;
   GlobalKey<State> keylogger = new GlobalKey<State>();
+  GlobalKey<State> keylogger1 = new GlobalKey<State>();
   List<RadioModel> sampleData = new List<RadioModel>();
   wallletBalancePojo _wallletBalance;
   PaymentdetailPojo _paymentdetailPojo;
@@ -1965,7 +1966,7 @@ class WalletScreenState extends State<WalletScreen> {
       String destinationToken,
       String purpose,
       String status) async {
-    Dialogs.showLoadingDialog(context, keylogger);
+    Dialogs.showLoadingDialog(context, keylogger1);
 
     print("Api Call");
 
@@ -2008,7 +2009,7 @@ class WalletScreenState extends State<WalletScreen> {
     if (response.statusCode == 200) {
       print("Response:-" + jsonResponse.toString());
       if (jsonResponse["status"] == false) {
-        Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+        Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
 
         Fluttertoast.showToast(
           msg: jsonResponse,
@@ -2021,7 +2022,7 @@ class WalletScreenState extends State<WalletScreen> {
       } else {
         if (jsonResponse != null) {
           print("Response:-" + jsonResponse.toString());
-          Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+          Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
           resultvalue = true;
 
           Fluttertoast.showToast(
@@ -2038,14 +2039,14 @@ class WalletScreenState extends State<WalletScreen> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+          Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
         }
       }
     } else {
       resultvalue = true;
 
       print("Response:-" + jsonResponse.toString());
-      Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+      Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
 
       Fluttertoast.showToast(
         msg: jsonResponse["errors"][0]["message"],

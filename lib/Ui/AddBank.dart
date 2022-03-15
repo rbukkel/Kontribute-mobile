@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Pojo/Bank_pojo.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/ProfileScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
 import 'package:kontribute/utils/Network.dart';
@@ -35,6 +36,7 @@ class AddBankState extends State<AddBank> {
   TextEditingController bankAccountIdcontroller = new TextEditingController();
   TextEditingController bankAccountPurposecontroller = new TextEditingController();
   GlobalKey<State>keylogger = new GlobalKey<State>();
+  GlobalKey<State>keylogger1 = new GlobalKey<State>();
   final firstnamenode = FocusNode();
   final lastnamenode = FocusNode();
   final countrynode = FocusNode();
@@ -999,7 +1001,9 @@ class AddBankState extends State<AddBank> {
                           GestureDetector(
                             onTap: (){
                               addbank();
+                              // addbankstatus();
                             },
+
                             child:  Container(
                                 alignment: Alignment.center,
                                 width: SizeConfig.blockSizeHorizontal * 38,
@@ -1044,8 +1048,8 @@ class AddBankState extends State<AddBank> {
     Dialogs.showLoadingDialog(context, keylogger);
 
     print("Api Call");
-    String username = 'restapiuser@130782021617';
-    String password = 'Rbukkel@123456';
+    String username = StringConstant.hyperwalletusername;
+    String password = StringConstant.hyperwalletpassword;
 
     Map bodynew = {
       "profileType": "INDIVIDUAL",
@@ -1103,14 +1107,15 @@ class AddBankState extends State<AddBank> {
             print("Branch Id:-" + branchid.toString());
             // sharedPreferences.setString("branchid", branchid);
           });
-            addbankstatus();
           Fluttertoast.showToast(
               msg: "Add Bank Status Successfully!",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()));
+          addbankstatus();
+
+          // Navigator.push(context,
+          //     MaterialPageRoute(builder: (context) => HomeScreen()));
         } else {
           print("Response:-" + jsonResponse.toString());
           Fluttertoast.showToast(
@@ -1140,18 +1145,17 @@ class AddBankState extends State<AddBank> {
 
     print("Api Call");
 
-    final bodynew = jsonEncode({
-      'bank_status': "1",
+    Map data = {
       'userid': userid,
-    }
-    );
-
+      'bank_status': "1",
+    };
+    print("profile data: " + data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(
-        Network.BaseApi+Network.updatebankstatus, body: bodynew);
+    http.Response response =
+    await http.post(Network.BaseApi + Network.updatebankstatus, body: data);
     jsonResponse = json.decode(response.body);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       print("Response:-" + jsonResponse.toString());
       if (jsonResponse["status"] == false) {
         Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
@@ -1201,7 +1205,7 @@ class AddBankState extends State<AddBank> {
       print("Response:-" + jsonResponse.toString());
       Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
-        msg: jsonResponse["errors"][0]["message"],
+        msg: jsonResponse["message"],
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
