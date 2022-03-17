@@ -49,6 +49,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   final addressFocus = FocusNode();
   final stateFocus = FocusNode();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoader1 = new GlobalKey<State>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController nicknameController = new TextEditingController();
   final TextEditingController fullnameController = new TextEditingController();
@@ -279,7 +280,15 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             if (loginResponse.resultPush.fullName == "") {
               fullnameController.text = "";
             } else {
-              fullnameController.text = loginResponse.resultPush.fullName;
+              var str=loginResponse.resultPush.fullName;
+              List parts = str.split(' ');
+              print("Name Length"+parts.length.toString());
+              fullnameController.text = parts[0].trim();
+              if(parts.length>1){
+                lastnameController.text = parts[1].trim();
+              }
+
+              // fullnameController.text = loginResponse.resultPush.fullName;
             }
 
             if (loginResponse.resultPush.nickName == "") {
@@ -1620,7 +1629,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                         {
                                           updateprofile(
                                               userid,
-                                              fullnameController.text+lastnameController.text,
+                                              fullnameController.text+" "+lastnameController.text,
                                               nicknameController.text,
                                               mobileController.text,
                                               CountryController.text,
@@ -1632,13 +1641,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                               postalcodeController.text,
                                               cityController.text,
                                               addressController.text,
-                                              statesController.text
+                                              statesController.text,
+                                              hyperwalletuserid
                                           );
                                         }
                                         else{
                                           updateprofile(
                                               userid,
-                                              fullnameController.text+lastnameController.text,
+                                              fullnameController.text+" "+lastnameController.text,
                                               nicknameController.text,
                                               mobile,
                                               countrycode,
@@ -1650,7 +1660,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                               postalcodeController.text,
                                               cityController.text,
                                               addressController.text,
-                                              statesController.text
+                                              statesController.text,
+                                              hyperwalletuserid
                                           );
                                         }
                                       }
@@ -2013,11 +2024,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       'city': cityController.text,
       'stateProvince': statesController.text,
       'country': countrycode2digit,
-      // 'country': currentCountryController.text,
       'postalCode': postalcodeController.text,
       'programToken': StringConstant.programtoken,
     }
     );
+
     print("body:-"+bodynew);
 
     var jsonResponse = null;
@@ -2045,7 +2056,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         {
           updateprofile(
               userid,
-              fullnameController.text,
+              fullnameController.text+" "+lastnameController.text,
               nicknameController.text,
               mobileController.text,
               CountryController.text,
@@ -2057,13 +2068,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               postalcodeController.text,
               cityController.text,
               addressController.text,
-              statesController.text
+              statesController.text,
+              userPojo.token.toString()
           );
         }
         else{
           updateprofile(
               userid,
-              fullnameController.text,
+              fullnameController.text+" "+lastnameController.text,
               nicknameController.text,
               mobile,
               countrycode,
@@ -2075,7 +2087,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               postalcodeController.text,
               cityController.text,
               addressController.text,
-              statesController.text
+              statesController.text,
+              userPojo.token.toString()
           );
         }
         // Navigator.push(context, MaterialPageRoute(builder: (context) => Home_screen()));
@@ -2117,10 +2130,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       String postalcode,
       String city,
       String address,
-      String state
+      String state,
+      String hyperwalletuser_id
       ) async {
     var jsonData = null;
-    Dialogs.showLoadingDialog(context, _keyLoader);
+    Dialogs.showLoadingDialog(context, _keyLoader1);
     var request = http.MultipartRequest(
         "POST", Uri.parse(Network.BaseApi + Network.update_profiledata));
     request.headers["Content-Type"] = "multipart/form-data";
@@ -2133,7 +2147,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     request.fields["current_country"] = country;
     request.fields["mobile_token"] = tken;
     request.fields["country_code"] = code;
-    request.fields["hyperwallet_id"] = hyperwalletuserid;
+    request.fields["hyperwallet_id"] = hyperwalletuser_id;
     request.fields["city"] = city;
     request.fields["addressLine1"] = address;
     request.fields["stateProvince"] = state;
@@ -2151,17 +2165,17 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       jsonData = json.decode(value);
       if (response.statusCode == 200) {
         if (jsonData["success"] == false) {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Navigator.of(_keyLoader1.currentContext, rootNavigator: true).pop();
           errorDialog(jsonData["message"]);
         } else {
-          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          Navigator.of(_keyLoader1.currentContext, rootNavigator: true).pop();
           if (jsonData != null) {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => ProfileScreen()),
                 (route) => false);
           } else {
-            Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+            Navigator.of(_keyLoader1.currentContext, rootNavigator: true).pop();
             setState(() {
               Navigator.of(context).pop();
             });
@@ -2169,10 +2183,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
           }
         }
       } else if (response.statusCode == 500) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Navigator.of(_keyLoader1.currentContext, rootNavigator: true).pop();
         errorDialog('internalservererror'.tr);
       } else {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        Navigator.of(_keyLoader1.currentContext, rootNavigator: true).pop();
         errorDialog('somethingwentwrong'.tr);
       }
     });

@@ -341,6 +341,8 @@ class LocaleString extends Translations {
           'pleaseentertransfercountrycode' : 'Please enter transfer country code!',
           'pleaseentertransfercountrycode' : 'Please enter transfer country code!',
           'pleaseenterfirstname' : 'Please enter first name!',
+          'youdonothaveenoughbalance' : 'You Do not Have Enough Balance!',
+          'amountrequired' : 'Amount Required!',
         },
         'ar_SA': {
           'home': 'الصفحة الرئيسية',
@@ -680,6 +682,8 @@ class LocaleString extends Translations {
           'transfermethodcountrycode' : 'طريقة التحويل رمز البلد',
           'pleaseentertransfercountrycode' : 'الرجاء إدخال رمز بلد التحويل!',
           'pleaseenterfirstname' : 'الرجاء إدخال الاسم الأول',
+          'youdonothaveenoughbalance' : 'ليس لديك رصيد كافي!',
+          'amountrequired' : 'كمية مطلوبة!',
         },
       };
 }

@@ -1141,7 +1141,7 @@ class AddBankState extends State<AddBank> {
   }
 
   Future<void> addbankstatus() async {
-    Dialogs.showLoadingDialog(context, keylogger);
+    Dialogs.showLoadingDialog(context, keylogger1);
 
     print("Api Call");
 
@@ -1158,7 +1158,7 @@ class AddBankState extends State<AddBank> {
     if (response.statusCode == 200) {
       print("Response:-" + jsonResponse.toString());
       if (jsonResponse["status"] == false) {
-        Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+        Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
 
         Fluttertoast.showToast(
           msg: jsonResponse,
@@ -1170,7 +1170,7 @@ class AddBankState extends State<AddBank> {
       } else {
         if (jsonResponse != null) {
           print("Response:-" + jsonResponse.toString());
-          Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+          Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
           bankPojo = BankPojo.fromJson(jsonResponse);
           addbankstatusresponse = jsonResponse.toString();
           if(jsonResponse["success"].toString()=="true"){
@@ -1198,12 +1198,12 @@ class AddBankState extends State<AddBank> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
           );
-          Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+          Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
         }
       }
     } else {
       print("Response:-" + jsonResponse.toString());
-      Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
+      Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
       Fluttertoast.showToast(
         msg: jsonResponse["message"],
         toastLength: Toast.LENGTH_SHORT,

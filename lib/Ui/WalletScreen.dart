@@ -116,12 +116,12 @@ class WalletScreenState extends State<WalletScreen> {
       print("UserId: " + val);
       userid = val;
       print("Login userid: " + userid.toString());
+      getcurrent_balance(userid);
     });
 
     SharedUtils.readhyperwalletuserid("hyperwalletuserId").then((val) {
       hyperwalletuserid = val;
       print("Hyperwallet UserId: " + hyperwalletuserid.toString());
-      getcurrent_balance(hyperwalletuserid);
     });
     getbankstatus();
   }
@@ -159,11 +159,6 @@ class WalletScreenState extends State<WalletScreen> {
           _wallletBalance = wallletBalancePojo.fromJson(jsonResponse);
           resultvalue1 = true;
 
-          // Fluttertoast.showToast(
-          //     msg: "Wallet balance response success!",
-          //     toastLength: Toast.LENGTH_SHORT,
-          //     gravity: ToastGravity.BOTTOM,
-          //     timeInSecForIosWeb: 1);
           print("Wallet balance response success!");
           setState(() {
             walletbalance = _wallletBalance.currentBalance.toString();
@@ -621,7 +616,28 @@ class WalletScreenState extends State<WalletScreen> {
                                           )),
                                       GestureDetector(
                                         onTap: () {
-                                          sendmoney();
+                                          if(amountController.text.length==0){
+                                            Fluttertoast.showToast(
+                                              msg: 'amountrequired'.tr,
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                            );
+                                          }else{
+                                            print("Wallet balance:-"+walletbalance);
+                                            // if(int.parse(amountController.text)>int.parse("100")){
+                                              if(int.parse(amountController.text)>int.parse(walletbalance)){
+                                              Fluttertoast.showToast(
+                                                msg: 'youdonothaveenoughbalance'.tr,
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                              );
+                                            }else{
+                                              sendmoney();
+                                            }
+                                          }
+
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
@@ -1896,9 +1912,9 @@ class WalletScreenState extends State<WalletScreen> {
       headers: headers,
     );
     jsonResponse = json.decode(response.body);
+    print("Response:-" + jsonResponse.toString());
 
     if (response.statusCode == 201) {
-      print("Response:-" + jsonResponse.toString());
       if (jsonResponse["status"] == false) {
         Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
 
@@ -1908,10 +1924,8 @@ class WalletScreenState extends State<WalletScreen> {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-        print("Response:-" + jsonResponse.toString());
       } else {
         if (jsonResponse != null) {
-          print("Response:-" + jsonResponse.toString());
           Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
 
           // Fluttertoast.showToast(
@@ -1929,11 +1943,12 @@ class WalletScreenState extends State<WalletScreen> {
               _paymentdetailPojo.clientPaymentId,
               _paymentdetailPojo.destinationToken,
               _paymentdetailPojo.purpose,
-              _paymentdetailPojo.status);
+              _paymentdetailPojo.status,
+            _paymentdetailPojo.links.toString()
+          );
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => ProfileScreen()));
         } else {
-          print("Response:-" + jsonResponse.toString());
           Fluttertoast.showToast(
             msg: jsonResponse["message"],
             toastLength: Toast.LENGTH_SHORT,
@@ -1944,7 +1959,6 @@ class WalletScreenState extends State<WalletScreen> {
         }
       }
     } else {
-      print("Response:-" + jsonResponse.toString());
       Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
 
       Fluttertoast.showToast(
@@ -1965,12 +1979,16 @@ class WalletScreenState extends State<WalletScreen> {
       String clientPaymentId,
       String destinationToken,
       String purpose,
-      String status) async {
+      String status,
+      String link,
+      ) async {
     Dialogs.showLoadingDialog(context, keylogger1);
 
     print("Api Call");
 
-    Map bodynew = {
+
+
+    Map data = {
       "user_id": userid,
       "expiresOn": expiresOn,
       "createdOn": createdOn,
@@ -1981,30 +1999,16 @@ class WalletScreenState extends State<WalletScreen> {
       "destinationToken": destinationToken,
       "purpose": purpose,
       "programToken": StringConstant.programtoken,
-      "links": "",
+      "links": link,
       "status": status,
     };
 
-    var body = json.encode(bodynew);
-
-    String username = StringConstant.hyperwalletusername;
-    String password = StringConstant.hyperwalletpassword;
-
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'authorization': basicAuth
-    };
-
+    print("Add Withdrawn Status Request:-"+data.toString());
     var jsonResponse = null;
-    http.Response response = await http.post(
-      Network.hyperwallet_baseApi + Network.withdrawamount,
-      body: body,
-      headers: headers,
-    );
+    http.Response response =
+    await http.post(Network.BaseApi + Network.withdrawamount, body: data);
     jsonResponse = json.decode(response.body);
+
 
     if (response.statusCode == 200) {
       print("Response:-" + jsonResponse.toString());
@@ -2024,7 +2028,12 @@ class WalletScreenState extends State<WalletScreen> {
           print("Response:-" + jsonResponse.toString());
           Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
           resultvalue = true;
+          getcurrent_balance(userid);
+          setState(() {
+            amountController.text = "";
+          });
 
+          Navigator.pop(context);
           Fluttertoast.showToast(
               msg: 'withdrawalsuccessfully'.tr,
               toastLength: Toast.LENGTH_SHORT,
@@ -2049,7 +2058,7 @@ class WalletScreenState extends State<WalletScreen> {
       Navigator.of(keylogger1.currentContext, rootNavigator: true).pop();
 
       Fluttertoast.showToast(
-        msg: jsonResponse["errors"][0]["message"],
+        msg: jsonResponse["message"],
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -2064,6 +2073,7 @@ class WalletScreenState extends State<WalletScreen> {
       print("Bank status:-" + bankstatus.toString());
     });
   }
+
 }
 
 class RadioItem extends StatelessWidget {
