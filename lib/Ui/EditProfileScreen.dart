@@ -2032,7 +2032,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     print("body:-"+bodynew);
 
     var jsonResponse = null;
-    http.Response response = await http.post("https://api.sandbox.hyperwallet.com/rest/v3/users",body: bodynew,headers: headers,);
+    http.Response response = await http.post(Network.hyperwallet_baseApi+Network.hyperwalletusers,body: bodynew,headers: headers,);
     jsonResponse = json.decode(response.body);
     print("Response1:-"+jsonResponse.toString());
 

@@ -1081,7 +1081,7 @@ class AddBankState extends State<AddBank> {
     };
 
     var jsonResponse = null;
-    http.Response response = await http.post("https://api.sandbox.hyperwallet.com/rest/v3/users/"+hyperwalletuserid+"/bank-accounts",body: body,headers: headers,);
+    http.Response response = await http.post(Network.hyperwallet_baseApi+"users/"+hyperwalletuserid+"/bank-accounts",body: body,headers: headers,);
     jsonResponse = json.decode(response.body);
     print("Jsonreponse:-"+jsonResponse.toString());
     if (response.statusCode == 201) {

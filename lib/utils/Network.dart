@@ -15,6 +15,7 @@ class Network{
   static String countrylist = "countrylist";
   static String getHyperwalletid = "getHyperwalletid";
   static String payments = "payments";
+  static String hyperwalletusers = "users";
   static String hyperwallet_baseApi = "https://api.sandbox.hyperwallet.com/rest/v3/";
   static String nationality = "nationality";
   static String login = "login";

@@ -51,7 +51,7 @@ class LocaleString extends Translations {
           'typeheremessage' : 'Type here message',
           'receivenotificationswhenfriendpay' : 'Receive Notifications when friend pay',
           'invite' : 'Invite',
-          'gallery' : 'Gallary',
+          'gallery' : 'Gallery',
           'camera' : 'Camera',
           'cancel' : 'Cancel',
           'pleaseselectimage' : 'Please Select Image',
