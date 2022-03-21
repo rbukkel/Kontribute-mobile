@@ -2790,6 +2790,12 @@ class OngoingProjectDetailsscreenState
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
                                                                       ),
+
+
+                                                                      projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status == "0" ?
+
+
+
                                                                       Container(
                                                                         width: SizeConfig.blockSizeHorizontal *
                                                                             20,
@@ -2804,7 +2810,7 @@ class OngoingProjectDetailsscreenState
                                                                         ),
                                                                         child:
                                                                             Text(
-                                                                          'status'
+                                                                          ''
                                                                               .tr,
                                                                           textAlign:
                                                                               TextAlign.center,
@@ -2815,7 +2821,32 @@ class OngoingProjectDetailsscreenState
                                                                               fontWeight: FontWeight.bold,
                                                                               fontFamily: 'Poppins-Regular'),
                                                                         ),
-                                                                      )
+                                                                      ) :    Container(
+                                                                        width: SizeConfig.blockSizeHorizontal *
+                                                                            20,
+                                                                        alignment:
+                                                                        Alignment.center,
+                                                                        padding:
+                                                                        EdgeInsets.only(
+                                                                          left: SizeConfig.blockSizeHorizontal *
+                                                                              1,
+                                                                          right:
+                                                                          SizeConfig.blockSizeHorizontal * 1,
+                                                                        ),
+                                                                        child:
+                                                                        Text(
+                                                                          'status'
+                                                                              .tr,
+                                                                          textAlign:
+                                                                          TextAlign.center,
+                                                                          style: TextStyle(
+                                                                              letterSpacing: 1.0,
+                                                                              color: AppColors.black,
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontFamily: 'Poppins-Regular'),
+                                                                        ),
+                                                                      ),
                                                                     ],
                                                                   ),
                                                                   Row(
@@ -2841,10 +2872,13 @@ class OngoingProjectDetailsscreenState
                                                                               ),
                                                                             ],
                                                                           )),
+
+
+
                                                                       projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status ==
                                                                               "0"
                                                                           ? Container(
-                                                                              width: SizeConfig.blockSizeHorizontal * 20,
+                                                                              /*width: SizeConfig.blockSizeHorizontal * 20,
                                                                               alignment: Alignment.topRight,
                                                                               padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 2, left: SizeConfig.blockSizeHorizontal * 2, bottom: SizeConfig.blockSizeHorizontal * 2, top: SizeConfig.blockSizeHorizontal * 2),
                                                                               decoration: BoxDecoration(color: AppColors.whiteColor, borderRadius: BorderRadius.circular(20), border: Border.all(color: AppColors.orange)),
@@ -2852,7 +2886,7 @@ class OngoingProjectDetailsscreenState
                                                                                 'pendinguppercase'.tr,
                                                                                 textAlign: TextAlign.center,
                                                                                 style: TextStyle(letterSpacing: 1.0, color: AppColors.orange, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Poppins-Regular'),
-                                                                              ),
+                                                                              ),*/
                                                                             )
                                                                           : projectdetailspojo.commentsdata.projectpaymentdetails.elementAt(idex).status == "1"
                                                                               ? Container(

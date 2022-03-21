@@ -529,7 +529,7 @@ class Ticketpayemtndetails {
   String id;
   String ticketId;
   String senderId;
-  String amount;
+  Object amount;
   String qty;
   String status;
   String createdAt;

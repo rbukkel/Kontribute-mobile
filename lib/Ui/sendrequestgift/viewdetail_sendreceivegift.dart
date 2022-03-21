@@ -1739,7 +1739,9 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
             callNext(
                 payment(
                     data: moneypojo.paymentId.toString(),
-                    amount:moneypojo.paypalAmount.toString(),
+                    amount:moneypojo.
+
+                    paypalAmount.toString(),
                     coming:"gift",
                     backto:"GIFT"
                 ), context);

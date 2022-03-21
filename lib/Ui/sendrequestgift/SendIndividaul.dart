@@ -5,7 +5,12 @@ import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kontribute/Payment/payment.dart';
+import 'package:kontribute/Pojo/SendIndividualPojo.dart';
+import 'package:kontribute/Pojo/commisionpojo.dart';
 import 'package:kontribute/Pojo/get_send_gift.dart';
+import 'package:kontribute/Pojo/individualRequestDetailspojo.dart';
+import 'package:kontribute/Pojo/sendmoneypojo.dart';
 import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
 import 'package:kontribute/Ui/sendrequestgift/sendreceivedgifts.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -26,6 +31,7 @@ class SendIndividaulState extends State<SendIndividaul>{
   final SearchContactFocus = FocusNode();
   final requiredamountFocus = FocusNode();
   final DescriptionFocus = FocusNode();
+  sendmoneypojo moneypojo;
   final TextEditingController searchcontactController = new TextEditingController();
   final TextEditingController requiredamountController = new TextEditingController();
   final TextEditingController DescriptionController = new TextEditingController();
@@ -33,6 +39,7 @@ class SendIndividaulState extends State<SendIndividaul>{
   final TextEditingController MoneyCashController = new TextEditingController();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   String _requiredamount;
+  var valcommision;
   String _searchcontact;
   String _moneyCash;
   String _Description;
@@ -46,6 +53,7 @@ class SendIndividaulState extends State<SendIndividaul>{
   String user;
   String userid;
   String val;
+  individualRequestDetailspojo senddetailsPojo;
   bool isLoading = false;
   List<dynamic> categoryTypes = List();
   var currentSelectedValue;
@@ -54,9 +62,13 @@ class SendIndividaulState extends State<SendIndividaul>{
   String image;
   bool isNumericMode = false;
   String text = '';
+  var updateval;
+  SendIndividualPojo sendIndividualPojo;
   String activeLanguage;
   bool showkeyboardDescription = false;
   bool shiftEnabledProjectname = false;
+  commisionpojo commission;
+  var commisionlist_length;
 
   @override
   void initState() {
@@ -1031,6 +1043,8 @@ class SendIndividaulState extends State<SendIndividaul>{
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader);
     var request = http.MultipartRequest("POST", Uri.parse(Network.BaseApi + Network.send_gift),);
+
+
     request.headers["Content-Type"] = "multipart/form-data";
     request.fields["notification"] = notification.toString();
     request.fields["price"] = requiredamoun.toString();
@@ -1045,9 +1059,11 @@ class SendIndividaulState extends State<SendIndividaul>{
       request.files.add(await http.MultipartFile.fromPath("file", Imge.path, filename: Imge.path));
     }
     var response = await request.send();
+
+
     response.stream.transform(utf8.decoder).listen((value) {
       jsonData = json.decode(value);
-
+      print("jsonData : " + jsonData.toString());
       if (jsonData["success"] == false) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         errorDialog(jsonData["message"]);
@@ -1057,6 +1073,10 @@ class SendIndividaulState extends State<SendIndividaul>{
           setState(() {
             isLoading = false;
           });
+          sendIndividualPojo=SendIndividualPojo.fromJson(jsonData);
+
+          getCommision(sendIndividualPojo.data.id.toString(),sendIndividualPojo.data.senderId.toString());
+
           errorDialog(jsonData["message"]);
           Future.delayed(Duration(seconds: 2),()
           {
@@ -1081,5 +1101,173 @@ class SendIndividaulState extends State<SendIndividaul>{
         }
       }
     });
+  }
+
+  void getCommision(String id, String userid) async {
+    var jsonResponse = null;
+    var response = await http.get(Uri.encodeFull(Network.BaseApi + Network.admincommission));
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      valcommision = response.body;
+      print("Commission:"+valcommision.toString());
+      if (jsonResponse["success"] == false) {
+        errorDialog(jsonDecode(valcommision)["message"]);
+      } else {
+        commission = new commisionpojo.fromJson(jsonResponse);
+        print("Json User" + jsonResponse.toString());
+        if (jsonResponse != null) {
+          print("response");
+          payamount(id,userid);
+          // setState(() {
+          //   commisionlist_length = commission.commisiondata;
+          //
+          //
+          // });
+        } else {
+          errorDialog(commission.message);
+        }
+      }
+    } else {
+      errorDialog(jsonDecode(valcommision)["message"]);
+    }
+  }
+
+  Future<void> payamount(String id, String userid) async {
+
+
+    String price=MoneyCashController.text;
+
+
+
+   /* if(senddetailsPojo.result.price != null)
+    {`
+      price =senddetailsPojo.result.price.toString();
+    }
+    else
+    {
+      price = senddetailsPojo.result.collectionTarget.toString();
+    }*/
+    print("Price: "+price.toString());
+    int pricenew=int.parse(price) - commission.commisiondata.senderCommision;
+
+
+    // Dialogs.showLoadingDialog(context, _keyLoader);
+    Map data = {
+      'id':id,
+      'sender_id': sendIndividualPojo.data.senderId.toString(),
+      'price_money': price.toString(),
+      'updated_price': pricenew.toString(),
+    };
+    print("DATA: " + data.toString());
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.BaseApi + Network.pay_money, body: data);
+    print("Pay amount api working");
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      updateval = response.body; //store response as string
+      if (jsonResponse["success"] == false) {
+        // Navigator.of(context, rootNavigator: true).pop();
+        showToast(updateval);
+        print("Response 1");
+
+      } else {
+        moneypojo = new sendmoneypojo.fromJson(jsonResponse);
+        if (jsonResponse != null) {
+          print("Response 2"+moneypojo.paymentId.toString());
+          print("Response 2"+moneypojo.paypalAmount.toString());
+
+          callNext(
+              payment(
+                  data: moneypojo.paymentId.toString(),
+                  amount:moneypojo.paypalAmount.toString(),
+                  coming:"gift",
+                  backto:"GIFT"
+              ), context);
+          // Navigator.of(context, rootNavigator: true).pop();
+
+          // Future.delayed(Duration(seconds: 5),()
+          // {
+          //   callNext(
+          //       payment(
+          //           data: moneypojo.paymentId.toString(),
+          //           amount:moneypojo.paypalAmount.toString(),
+          //           coming:"gift",
+          //           backto:"GIFT"
+          //       ), context);
+          // });
+          /*
+          showDialog(
+            context: context,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              backgroundColor: AppColors.whiteColor,
+              child: new Container(
+                margin: EdgeInsets.all(5),
+                width: 300.0,
+                height: 180.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Icon(
+                        Icons.error,
+                        size: 50.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                      color: AppColors.whiteColor,
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Text(
+                        jsonDecode(updateval)["message"],
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OngoingSendReceived()), (route) => false);
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        color: AppColors.whiteColor,
+                        alignment: Alignment.center,
+                        height: 50,
+                        child: Text(
+                          'okay'.tr,
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );*/
+          // getpaymentlist(a);
+        } else {
+          showToast(updateval);
+
+        }
+      }
+    } else {
+      // Navigator.of(context, rootNavigator: true).pop();
+      showToast(updateval);
+    }
+  }
+  void showToast(String updateval) {
+    errorDialog(jsonDecode(updateval)["message"]);
   }
 }

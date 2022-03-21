@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaign.dart';
 import 'package:kontribute/Ui/Events/OngoingEvents.dart';
+import 'package:kontribute/Ui/HomeScreen.dart';
 import 'package:kontribute/Ui/MyActivity/MyActivities.dart';
 import 'package:kontribute/Ui/ProjectFunding/OngoingProject.dart';
 import 'package:kontribute/Ui/sendrequestgift/OngoingSendReceived.dart';
@@ -30,7 +31,7 @@ class payment extends StatefulWidget{
 class _payment  extends State<payment>{
   var isFlutterInAppWebViewReady = false;
 // InAppWebViewController _webViewController;
- final Completer<WebViewController> _controller = Completer<WebViewController>();
+ Completer<WebViewController> _controller = Completer<WebViewController>();
  bool internet = false;
  String data1;
  String amount1;
@@ -153,28 +154,55 @@ class _payment  extends State<payment>{
             initialUrl: Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid,
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) => _controller.complete(webViewController),
-            /*onPageFinished: (String url) {
-              if (url == Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid) {
-                _redirectToStripe(widget.sessionId);
-              }
-            },*/
+
+            onPageFinished: (String url) {
+              /*if (url == Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid) {
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+              }*/
+
+
+
+
+            },
+
+
             navigationDelegate: (NavigationRequest request) {
-              print(request);
-              print(request.url);
-              if (request.url.startsWith('http://kontribute.biz/paypal_status')) {
-                    Fluttertoast.showToast(
+              print('request 1 : '+request.toString());
+              print('request  2 :'+request.url.toString());
+
+             // if (request.url.startsWith('http://kontribute.biz/paypal_status')) {
+              if (request.url.startsWith('https://kontribute.biz/paypal_status')) {
+
+
+
+
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+
+
+
+
+
+                Fluttertoast.showToast(
                         msg: "Payment Successful",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1
                     );
-                    Future.delayed(Duration(seconds: 1),()
+
+
+               /*   Future.delayed(Duration(seconds: 1),()
                     {
                       Navigator.of(context).pop();
-                    });
+                    });*/
 
 
-              } else if (request.url.startsWith('http://kontribute.biz/paypal_statusfail'))
+              }
+
+             // else if (request.url.startsWith('http://kontribute.biz/paypal_statusfail'))
+              else if (request.url.startsWith('https://kontribute.biz/paypal_statusfail'))
+
+
+
               {
                 Fluttertoast.showToast(
                     msg: "Payment Fail",

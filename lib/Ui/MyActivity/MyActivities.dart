@@ -163,6 +163,7 @@ class MyActivitiesState extends State<MyActivities> {
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       valcommision = response.body;
+      print("Commission:"+valcommision.toString());
       if (jsonResponse["success"] == false) {
         errorDialog(jsonDecode(valcommision)["message"]);
       } else {

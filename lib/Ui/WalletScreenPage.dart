@@ -1875,7 +1875,8 @@ class WalletScreenPageState extends State<WalletScreenPage> {
                     fit: BoxFit.fill,
                   ),
                 ),
-                child: Text(StringConstant.proceedtopay,
+                child: Text(
+                    StringConstant.proceedtopay,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
