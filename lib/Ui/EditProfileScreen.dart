@@ -1620,11 +1620,51 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                   Internet_check().check().then((intenet) {
                                     if (intenet != null && intenet) {
 
-                                      print("Hyperwallert user id:-"+hyperwalletuserid.toString());
+                                      if(mobile==null || mobile ==" " && countrycode==null || countrycode=="")
+                                      {
+                                        updateprofile(
+                                            userid,
+                                            fullnameController.text+" "+lastnameController.text,
+                                            nicknameController.text,
+                                            mobileController.text,
+                                            CountryController.text,
+                                            dateofbirthController.text,
+                                            natinalityController.text,
+                                            currentCountryController.text,
+                                            token,
+                                            _imageFile,
+                                            postalcodeController.text,
+                                            cityController.text,
+                                            addressController.text,
+                                            statesController.text,
+                                            hyperwalletuserid
+                                        );
+                                      }
+                                      else{
+                                        updateprofile(
+                                            userid,
+                                            fullnameController.text+" "+lastnameController.text,
+                                            nicknameController.text,
+                                            mobile,
+                                            countrycode,
+                                            dateofbirthController.text,
+                                            natinalityController.text,
+                                            currentCountryController.text,
+                                            token,
+                                            _imageFile,
+                                            postalcodeController.text,
+                                            cityController.text,
+                                            addressController.text,
+                                            statesController.text,
+                                            hyperwalletuserid
+                                        );
+                                      }
 
-                                      if(hyperwalletuserid.toString()=="null" || hyperwalletuserid==""){
+                                     /* if(hyperwalletuserid.toString()=="null" || hyperwalletuserid==""){
                                         createhyperawalletuser();
-                                      }else{
+                                      }
+
+                                      else{
                                         if(mobile==null || mobile ==" " && countrycode==null || countrycode=="")
                                         {
                                           updateprofile(
@@ -1664,7 +1704,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                               hyperwalletuserid
                                           );
                                         }
-                                      }
+                                      }*/
+
                                     } else {
                                       errorDialog('nointernetconnection'.tr);
                                     }
@@ -1987,6 +2028,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   mobile = phone.number;
                   countrycode = phone.countryCode;
                   countrycode2digit=phone.countryISOCode;
+
+
                   //when phone number country code is changed
                   print(phone.completeNumber); //get complete number
                   print("Country Dial code:-"+phone.countryCode); // get country code only

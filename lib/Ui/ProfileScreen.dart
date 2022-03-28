@@ -7,6 +7,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kontribute/Common/Sharedutils.dart';
 import 'package:kontribute/Drawer/drawer_Screen.dart';
 import 'package:kontribute/Pojo/LoginResponse.dart';
+import 'package:kontribute/Pojo/SaveHyperwalletResponse.dart';
+import 'package:kontribute/Pojo/User_pojo.dart';
+import 'package:kontribute/Pojo/gethyperwalletPojo.dart';
 import 'package:kontribute/Ui/AddBank.dart';
 import 'package:kontribute/Ui/EditProfileScreen.dart';
 import 'package:kontribute/utils/AppColors.dart';
@@ -33,20 +36,23 @@ class ProfileScreenState extends State<ProfileScreen> {
   String nickname;
   String email;
   String mobile;
+  String lastname,firstname;
   String countrycode;
   String dob;
   String nationality;
   String country;
   String address="";
   String city="";
+  GethyperwalletPojo _gethyperwalletPojo;
   String state="";
   String postalcode="";
   bool imageUrl = false;
   bool _loading = false;
+  UserPojo userPojo;
   String image;
   var storelist_length;
   String bankstatus,hyperwalletuserid;
-
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   @override
   void initState() {
     super.initState();
@@ -55,9 +61,13 @@ class ProfileScreenState extends State<ProfileScreen> {
         SharedUtils.readloginId("UserId").then((val) {
           print("UserId: " + val);
           userid = val;
+          gethyperwalletid(userid);
           getData(userid);
           print("Login userid: " + userid.toString());
         });
+
+
+
         SharedUtils.readhyperwalletuserid("hyperwalletuserId").then((val) {
           hyperwalletuserid = val;
           print("Hyperwallet UserId: " + hyperwalletuserid.toString());
@@ -163,6 +173,16 @@ class ProfileScreenState extends State<ProfileScreen> {
               fullname = "";
             } else {
               fullname = loginResponse.resultPush.fullName;
+
+
+              var str=loginResponse.resultPush.fullName;
+              List parts = str.split(' ');
+              print("Name Length"+parts.length.toString());
+              firstname = parts[0].trim();
+              if(parts.length>1){
+                lastname= parts[1].trim();
+              }
+
             }
 
             if (loginResponse.resultPush.nickName == "") {
@@ -205,6 +225,9 @@ class ProfileScreenState extends State<ProfileScreen> {
               country = "";
             } else {
               country = loginResponse.resultPush.currentCountry;
+              print('two'+country.substring(0,2));
+
+
             }
             if (loginResponse.resultPush.addressLine1 == "") {
               address = "";
@@ -735,7 +758,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ],
-                      ),Row(
+                      ),
+
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
@@ -770,25 +795,142 @@ class ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
+
+
+                      Row(
+
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 35,
+                            child: Text(
+                              'hyperwalletid'.tr,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins-Bold'),
+                            ),
+                          ),
+
+
+
+
+
+                          _gethyperwalletPojo.data.hyperwalletId.toString()=="null" || _gethyperwalletPojo.data.hyperwalletId.toString()=="" ?
+
+
+
+
+                              GestureDetector(
+                                onTap: (){
+
+                                  createhyperawalletuser();
+                                },
+                                child:
+
+
+                                Container(
+                                    alignment: Alignment.center,
+                                    width: SizeConfig.blockSizeHorizontal * 25,
+                                    height: SizeConfig.blockSizeVertical * 5,
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 3,
+
+
+
+                                    ),
+                                    decoration: BoxDecoration(
+                                      image: new DecorationImage(
+                                        image: new AssetImage("assets/images/sendbutton.png"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('Verify Account',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontSize: 15,
+                                            )),
+                                      ],
+                                    )
+                                ),
+
+
+
+                              /*  Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockSizeHorizontal * 3,
+                                      top: SizeConfig.blockSizeVertical * 4),
+                                  width: SizeConfig.blockSizeHorizontal * 58,
+                                  child: Text(
+                                    'Verify Account',
+                                    style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Poppins-Regular'),
+                                  ),
+                                )*/
+                              )
+
+                         :    Container(
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 3,
+                                top: SizeConfig.blockSizeVertical * 4),
+                            width: SizeConfig.blockSizeHorizontal * 58,
+                            child: Text(
+                              _gethyperwalletPojo.data.hyperwalletId,
+                              style: TextStyle(
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Poppins-Regular'),
+                            ),
+                          ),
+                        ],
+                      ),
+
+
                       GestureDetector(
                         onTap: (){
-                          if(hyperwalletuserid.toString()=="null" || hyperwalletuserid.toString()==""){
+                          print('hyperwalletuserid : '+hyperwalletuserid);
+                          if( _gethyperwalletPojo.data.hyperwalletId.toString()=="null" ||  _gethyperwalletPojo.data.hyperwalletId.toString()==""){
+
+
                               Fluttertoast.showToast(
                               msg: 'completeyourprofilefirst'.tr,
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                             );
+
+
                           }else{
                             if(bankstatus==null || bankstatus=="0" || bankstatus==""){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddBank()));
+
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddBank(fname: firstname,lname:lastname,postalcode:postalcode,city:city,address:address,state:loginResponse.resultPush.stateProvince)));
+
+
                             }else{
-                              Fluttertoast.showToast(
+
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddBank(fname: firstname,lname:lastname,postalcode:postalcode,city:city,address:address,state:loginResponse.resultPush.stateProvince)));
+
+                              /* Fluttertoast.showToast(
                                 msg: 'bankalreadyconnnected'.tr,
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
-                              );
+                              );*/
                             }
                           }
                         },
@@ -845,6 +987,207 @@ class ProfileScreenState extends State<ProfileScreen> {
       print("Bank status:-"+bankstatus.toString());
     });
   }
+
+  void createhyperawalletuser() async {
+
+
+
+
+
+
+
+    print("Api Call");
+    Dialogs.showLoadingDialog(context, _keyLoader);
+
+    String username = StringConstant.hyperwalletusername;
+    String password = StringConstant.hyperwalletpassword;
+
+    String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'authorization': basicAuth
+    };
+    final bodynew = jsonEncode({
+      'clientUserId': userid.toString(),
+      'profileType': "INDIVIDUAL",
+      'firstName': fullname,
+      'lastName': lastname,
+      'dateOfBirth': dob,
+      'email': email,
+      'addressLine1': address,
+      'city': city,
+      'stateProvince': state,
+      'country':country.substring(0,2),
+      'postalCode': postalcode,
+      'programToken': StringConstant.programtoken,
+    }
+    );
+
+    print("body:-"+bodynew);
+
+    var jsonResponse = null;
+    http.Response response = await http.post(Network.hyperwallet_baseApi+Network.hyperwalletusers,body: bodynew,headers: headers,);
+    jsonResponse = json.decode(response.body);
+    print("Response1:-"+jsonResponse.toString());
+
+    if (response.statusCode == 201) {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      print("Response2:-"+jsonResponse.toString());
+      if (jsonResponse != null) {
+        userPojo=new UserPojo.fromJson(jsonResponse);
+        print('hyper user id is in Response'+userPojo.token);
+        Fluttertoast.showToast(
+            msg: "Account Created Successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+
+
+        Map data = {
+          'userid': userid.toString(),
+          'hyperwallet_id': userPojo.token,
+
+        };
+
+        var jsonResponse1 = null;
+        var response1 = await http.post(Network.BaseApi + Network.saveHyperwallet, body: data);
+        if (response1.statusCode == 200) {
+          jsonResponse1 = json.decode(response1.body);
+          if (jsonResponse1["status"] == false) {
+
+            errorDialog(jsonResponse1["message"]);
+          }
+          else {
+
+            SaveHyperwalletResponse login = new SaveHyperwalletResponse.fromJson(jsonResponse1);
+            String jsonProfile = jsonEncode(login);
+            print('saved hyperwallet id '+jsonProfile);
+
+
+
+            gethyperwalletid(userid);
+
+
+            if (jsonResponse1 != null) {
+
+            } else {
+
+              setState(() {
+                Navigator.of(context).pop();
+                //   isLoading = false;
+              });
+              errorDialog(login.message);
+            }
+          }
+        }
+
+        else {
+
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          errorDialog(jsonResponse1["message"]);
+        }
+
+
+
+
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Home_screen()));
+      }
+
+      else {
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+        print("Response5:-"+jsonResponse.toString());
+
+      }
+    } else {
+      print("Response6:-"+jsonResponse.toString());
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      Fluttertoast.showToast(
+        msg:jsonResponse["errors"][0]["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+  Future<void> gethyperwalletid(String userid) async {
+
+    print("Api Call");
+    Map data = {
+      "userid":userid,
+
+    };
+    print("Data: "+data.toString());
+    var jsonResponse = null;
+    var response = await http.post(Network.BaseApi + Network.getHyperwalletid, body: data);
+    jsonResponse = json.decode(response.body);
+
+    print("Response hyperwallet:-" + jsonResponse.toString());
+
+    if (response.statusCode == 200) {
+      if (jsonResponse["status"] == false) {
+
+
+        Fluttertoast.showToast(
+          msg: jsonResponse["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+
+        print("Response:-" + jsonResponse.toString());
+      } else {
+        if (jsonResponse != null) {
+          print("Response:-" + jsonResponse.toString());
+
+          setState(() {
+            _gethyperwalletPojo=GethyperwalletPojo.fromJson(jsonResponse);
+            print("Get Hyperwallet user id:-"+_gethyperwalletPojo.data.hyperwalletId);
+            /*
+            print("Hyperwallet user id:-"+hyperwalletuserid.toString());
+            SharedUtils.savehyperwalletuserid("hyperwalletuserId",hyperwalletuserid);
+            print('saved hyper id is :'+SharedUtils.readhyperwalletuserid('hyperwalletuserId').toString());
+            SharedUtils.savebankstatus("hyperwalletuserId",_gethyperwalletPojo.data.bankStatus.toString());
+            */
+            getsharedpreference();
+          });
+
+
+
+        } else {
+
+          print("Response:-" + jsonResponse.toString());
+          Fluttertoast.showToast(
+            msg: jsonResponse["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+          );
+
+        }
+      }
+    } else {
+
+
+      print("Response:-" + jsonResponse.toString());
+
+
+      Fluttertoast.showToast(
+        msg: jsonResponse["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+      );
+    }
+  }
+
+
 }
 
 

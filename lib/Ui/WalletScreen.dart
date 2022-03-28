@@ -152,7 +152,6 @@ class WalletScreenState extends State<WalletScreen> {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
-
       } else {
         if (jsonResponse != null) {
           // Navigator.of(keylogger.currentContext, rootNavigator: true).pop();
@@ -403,9 +402,11 @@ class WalletScreenState extends State<WalletScreen> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      print("Hyperwallet id on click:-"+hyperwalletuserid.toString());
-                      print("Bank details on click:-"+bankstatus.toString());
-                      if (hyperwalletuserid.toString() == "null" || hyperwalletuserid == "") {
+                      print("Hyperwallet id on click:-" +
+                          hyperwalletuserid.toString());
+                      print("Bank details on click:-" + bankstatus.toString());
+                      if (hyperwalletuserid.toString() == "null" ||
+                          hyperwalletuserid == "") {
                         Fluttertoast.showToast(
                           msg: 'completeyourprofilefirst'.tr,
                           toastLength: Toast.LENGTH_SHORT,
@@ -413,7 +414,9 @@ class WalletScreenState extends State<WalletScreen> {
                           timeInSecForIosWeb: 1,
                         );
                       } else {
-                        if (bankstatus == "0" || bankstatus.toString()=="null" || bankstatus=="") {
+                        if (bankstatus == "0" ||
+                            bankstatus.toString() == "null" ||
+                            bankstatus == "") {
                           Fluttertoast.showToast(
                             msg: 'addyourbankfirst'.tr,
                             toastLength: Toast.LENGTH_SHORT,
@@ -434,7 +437,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   height: SizeConfig.blockSizeVertical * 45,
                                   child: new Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       GestureDetector(
                                         onTap: () {
@@ -447,11 +450,11 @@ class WalletScreenState extends State<WalletScreen> {
                                         child: Container(
                                           margin: EdgeInsets.only(
                                               right: SizeConfig
-                                                  .blockSizeHorizontal *
+                                                      .blockSizeHorizontal *
                                                   3,
                                               top:
-                                              SizeConfig.blockSizeVertical *
-                                                  2),
+                                                  SizeConfig.blockSizeVertical *
+                                                      2),
                                           alignment: Alignment.topRight,
                                           child: Icon(
                                             Icons.close,
@@ -463,11 +466,11 @@ class WalletScreenState extends State<WalletScreen> {
                                       Container(
                                         margin: EdgeInsets.only(
                                             left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                             right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                             top: SizeConfig.blockSizeVertical *
                                                 2),
                                         alignment: Alignment.topCenter,
@@ -486,11 +489,11 @@ class WalletScreenState extends State<WalletScreen> {
                                       Container(
                                         margin: EdgeInsets.only(
                                             left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                             right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
                                             top: SizeConfig.blockSizeVertical *
                                                 5),
                                         alignment: Alignment.topCenter,
@@ -508,28 +511,28 @@ class WalletScreenState extends State<WalletScreen> {
                                       ),
                                       Container(
                                           height:
-                                          SizeConfig.blockSizeVertical * 6,
+                                              SizeConfig.blockSizeVertical * 6,
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 2,
                                             left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                8,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    8,
                                             right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                8,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    8,
                                           ),
                                           padding: EdgeInsets.only(
                                             left: SizeConfig.blockSizeVertical *
                                                 1,
                                             right:
-                                            SizeConfig.blockSizeVertical *
-                                                1,
+                                                SizeConfig.blockSizeVertical *
+                                                    1,
                                           ),
                                           alignment: Alignment.topLeft,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                             border: Border.all(
                                               color: Colors.black,
                                               style: BorderStyle.solid,
@@ -541,7 +544,7 @@ class WalletScreenState extends State<WalletScreen> {
                                             children: [
                                               Container(
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     5,
                                                 child: Text(
                                                   "\$",
@@ -550,28 +553,28 @@ class WalletScreenState extends State<WalletScreen> {
                                                       color: Colors.black,
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.bold,
+                                                          FontWeight.bold,
                                                       fontFamily:
-                                                      'Poppins-Bold'),
+                                                          'Poppins-Bold'),
                                                 ),
                                               ),
                                               Container(
                                                 alignment: Alignment.center,
                                                 padding: EdgeInsets.only(
                                                     bottom: SizeConfig
-                                                        .blockSizeVertical *
+                                                            .blockSizeVertical *
                                                         0.5),
                                                 width: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     45,
                                                 child: TextFormField(
                                                   autofocus: false,
                                                   focusNode: AmountFocus,
                                                   controller: amountController,
                                                   textInputAction:
-                                                  TextInputAction.next,
+                                                      TextInputAction.next,
                                                   keyboardType:
-                                                  TextInputType.number,
+                                                      TextInputType.number,
                                                   validator: (val) {
                                                     if (val.length == 0)
                                                       return "Please enter amount";
@@ -581,32 +584,32 @@ class WalletScreenState extends State<WalletScreen> {
                                                   onFieldSubmitted: (v) {
                                                     FocusScope.of(context)
                                                         .requestFocus(
-                                                        MobileFocus);
+                                                            MobileFocus);
                                                   },
                                                   onSaved: (val) =>
-                                                  _amount = val,
+                                                      _amount = val,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       letterSpacing: 1.0,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular',
+                                                          'Poppins-Regular',
                                                       fontSize: 12,
                                                       color: Colors.black),
                                                   decoration: InputDecoration(
                                                     border: InputBorder.none,
                                                     focusedBorder:
-                                                    InputBorder.none,
+                                                        InputBorder.none,
                                                     hintStyle: TextStyle(
                                                       color: Colors.black12,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       fontFamily:
-                                                      'Poppins-Regular',
+                                                          'Poppins-Regular',
                                                       fontSize: 12,
                                                       decoration:
-                                                      TextDecoration.none,
+                                                          TextDecoration.none,
                                                     ),
                                                     hintText: "30000",
                                                   ),
@@ -616,47 +619,73 @@ class WalletScreenState extends State<WalletScreen> {
                                           )),
                                       GestureDetector(
                                         onTap: () {
-                                          if(amountController.text.length==0){
+                                          if (amountController.text.length ==
+                                              0) {
                                             Fluttertoast.showToast(
                                               msg: 'amountrequired'.tr,
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
                                               timeInSecForIosWeb: 1,
                                             );
-                                          }else{
-                                            print("Wallet balance:-"+walletbalance);
-                                            // if(int.parse(amountController.text)>int.parse("100")){
-                                              if(int.parse(amountController.text)>int.parse(walletbalance)){
-                                              Fluttertoast.showToast(
-                                                msg: 'youdonothaveenoughbalance'.tr,
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                              );
-                                            }else{
-                                              sendmoney();
+                                          } else {
+                                            try {
+                                              print("Wallet balance:-" +
+                                                  walletbalance);
+                                              // if(int.parse(amountController.text)>int.parse("100")){
+                                              if (int.parse(amountController.text) > int.parse(walletbalance)) {
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      'youdonothaveenoughbalance'
+                                                          .tr,
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                );
+                                              }
+                                              else {
+                                                sendmoney();
+                                              }
+                                            } catch (e) {
+                                              print('excption is ' +
+                                                  e.toString());
+
+
+                                              if (double.parse(amountController.text) > double.parse(walletbalance)) {
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                  'youdonothaveenoughbalance'
+                                                      .tr,
+                                                  toastLength:
+                                                  Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                );
+                                              }
+                                              else {
+                                                sendmoney();
+                                              }
                                             }
                                           }
-
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
                                           width:
-                                          MediaQuery.of(context).size.width,
+                                              MediaQuery.of(context).size.width,
                                           height:
-                                          SizeConfig.blockSizeVertical * 6,
+                                              SizeConfig.blockSizeVertical * 6,
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 5,
                                             bottom:
-                                            SizeConfig.blockSizeVertical *
-                                                6,
+                                                SizeConfig.blockSizeVertical *
+                                                    6,
                                             left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                15,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    15,
                                             right:
-                                            SizeConfig.blockSizeHorizontal *
-                                                15,
+                                                SizeConfig.blockSizeHorizontal *
+                                                    15,
                                           ),
                                           decoration: BoxDecoration(
                                             image: new DecorationImage(
@@ -1944,8 +1973,7 @@ class WalletScreenState extends State<WalletScreen> {
               _paymentdetailPojo.destinationToken,
               _paymentdetailPojo.purpose,
               _paymentdetailPojo.status,
-            _paymentdetailPojo.links.toString()
-          );
+              _paymentdetailPojo.links.toString());
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => ProfileScreen()));
         } else {
@@ -1971,22 +1999,20 @@ class WalletScreenState extends State<WalletScreen> {
   }
 
   Future<void> addwithdrawnstatus(
-      String userid,
-      String expiresOn,
-      String createdOn,
-      String amount,
-      String currency,
-      String clientPaymentId,
-      String destinationToken,
-      String purpose,
-      String status,
-      String link,
-      ) async {
+    String userid,
+    String expiresOn,
+    String createdOn,
+    String amount,
+    String currency,
+    String clientPaymentId,
+    String destinationToken,
+    String purpose,
+    String status,
+    String link,
+  ) async {
     Dialogs.showLoadingDialog(context, keylogger1);
 
     print("Api Call");
-
-
 
     Map data = {
       "user_id": userid,
@@ -2003,12 +2029,11 @@ class WalletScreenState extends State<WalletScreen> {
       "status": status,
     };
 
-    print("Add Withdrawn Status Request:-"+data.toString());
+    print("Add Withdrawn Status Request:-" + data.toString());
     var jsonResponse = null;
     http.Response response =
-    await http.post(Network.BaseApi + Network.withdrawamount, body: data);
+        await http.post(Network.BaseApi + Network.withdrawamount, body: data);
     jsonResponse = json.decode(response.body);
-
 
     if (response.statusCode == 200) {
       print("Response:-" + jsonResponse.toString());
@@ -2074,6 +2099,13 @@ class WalletScreenState extends State<WalletScreen> {
     });
   }
 
+  String validateMyInput(String value) {
+    RegExp regex = new RegExp('[0-9.]');
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Number';
+    else
+      return 'kfkyfkyfyfjyd';
+  }
 }
 
 class RadioItem extends StatelessWidget {
@@ -2115,6 +2147,13 @@ class RadioItem extends StatelessWidget {
       ),
     );
   }
+}
+
+bool _isNumeric(String result) {
+  if (result == null) {
+    return false;
+  }
+  return double.tryParse(result) != null;
 }
 
 class RadioModel {

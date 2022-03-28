@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kontribute/Ui/Donation/OngoingCampaignDetailsscreen.dart';
 import 'package:kontribute/Ui/Events/OngoingEventsDetailsscreen.dart';
 import 'package:kontribute/Ui/Tickets/TicketOngoingEventsDetailsscreen.dart';
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool Donation=false;
   bool Event = false;
   bool Ticket = false;
-
+  FlutterLocalNotificationsPlugin  flutterLocalNotificationsPlugin;
   String _appBadgeSupported = 'Unknown';
 
   gettoken() {
@@ -78,6 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
       token = onError.toString();
       setState(() {});
     });
+
+
+
+
    // FlutterAppBadger.updateBadgeCount(1);
   }
 
@@ -85,11 +90,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     gettoken();
+
+
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
         FlutterAppBadger.updateBadgeCount(1);
-      },
+
+
+        _showNotification(1, message['notification']['title'].toString(), message['notification']['body'].toString(),
+            "GET PAYLOAD FROM message OBJECT");
+
+        },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         FlutterAppBadger.removeBadge();
@@ -609,4 +632,54 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
+  Future<void> _showNotification(
+      int notificationId,
+      String notificationTitle,
+      String notificationContent,
+      String payload, {
+        String channelId = '1234',
+        String channelTitle = 'Android Channel',
+        String channelDescription = 'Default Android Channel for notifications',
+        Priority notificationPriority = Priority.High,
+        Importance notificationImportance = Importance.Max,
+      }) async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      channelId,
+      channelTitle,
+      channelDescription,
+      playSound: false,
+      importance: notificationImportance,
+      priority: notificationPriority,
+    );
+    var iOSPlatformChannelSpecifics =
+    new IOSNotificationDetails(presentSound: false);
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      notificationId,
+      notificationTitle,
+      notificationContent,
+      platformChannelSpecifics,
+      payload: payload,
+    );
+  }
+
+
+  Future<dynamic> onSelectNotification(String payload) async {
+    /*Do whatever you want to do on notification click. In this case, I'll show an alert dialog*/
+
+    /* showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(payload),
+        content: Text("Payload: $payload"),
+      ),
+    );*/
+
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomeScreen()));
+  }
 }

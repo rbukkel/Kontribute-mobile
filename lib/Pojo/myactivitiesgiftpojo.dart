@@ -32,7 +32,7 @@ class Result {
   String senderId;
   String receiverId;
   String endDate;
-  String price;
+  Object price;
   String minCashByParticipant;
   String collectionTarget;
   String canSee;

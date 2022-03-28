@@ -807,7 +807,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                       },
                                                                       child:
                                                                           Container(
-                                                                        alignment:
+                                                                        /*alignment:
                                                                             Alignment.center,
                                                                         width: SizeConfig.blockSizeHorizontal *
                                                                             25,
@@ -833,7 +833,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                                                               fontWeight: FontWeight.bold,
                                                                               fontFamily: "Poppins-Regular",
                                                                               color: AppColors.theme1color),
-                                                                        ),
+                                                                        ),*/
                                                                       ),
                                                                     ),
                                                             ],

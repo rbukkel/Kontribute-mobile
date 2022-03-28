@@ -76,7 +76,7 @@ class SendIndividaulState extends State<SendIndividaul>{
     SharedUtils.readloginId("UserId").then((val) {
       print("UserId: " + val);
       user = val;
-      getCategory(user);
+     getCategory(user);
       print("Login userid: " + user.toString());
     });
     SharedUtils.readLangaunage("Langauge").then((val) {
@@ -1078,6 +1078,10 @@ class SendIndividaulState extends State<SendIndividaul>{
           getCommision(sendIndividualPojo.data.id.toString(),sendIndividualPojo.data.senderId.toString());
 
           errorDialog(jsonData["message"]);
+
+
+/*
+
           Future.delayed(Duration(seconds: 2),()
           {
             Navigator.pushAndRemoveUntil(
@@ -1085,6 +1089,11 @@ class SendIndividaulState extends State<SendIndividaul>{
                 OngoingSendReceived()),
                     (route) => false);
           });
+*/
+
+
+
+
 
         } else {
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -1118,7 +1127,7 @@ class SendIndividaulState extends State<SendIndividaul>{
         if (jsonResponse != null) {
           print("response");
           payamount(id,userid);
-          // setState(() {
+          // setState(() {Response 1
           //   commisionlist_length = commission.commisiondata;
           //
           //
@@ -1170,19 +1179,28 @@ class SendIndividaulState extends State<SendIndividaul>{
         showToast(updateval);
         print("Response 1");
 
-      } else {
+      }
+
+      else {
         moneypojo = new sendmoneypojo.fromJson(jsonResponse);
+
+
+
         if (jsonResponse != null) {
           print("Response 2"+moneypojo.paymentId.toString());
           print("Response 2"+moneypojo.paypalAmount.toString());
 
-          callNext(
-              payment(
-                  data: moneypojo.paymentId.toString(),
-                  amount:moneypojo.paypalAmount.toString(),
-                  coming:"gift",
-                  backto:"GIFT"
-              ), context);
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>  payment(
+              data: moneypojo.paymentId.toString(),
+              amount:price.toString(),
+              coming:"gift",
+              backto:"GIFT"
+          )));
+
+
+
+
           // Navigator.of(context, rootNavigator: true).pop();
 
           // Future.delayed(Duration(seconds: 5),()
@@ -1271,3 +1289,6 @@ class SendIndividaulState extends State<SendIndividaul>{
     errorDialog(jsonDecode(updateval)["message"]);
   }
 }
+
+
+

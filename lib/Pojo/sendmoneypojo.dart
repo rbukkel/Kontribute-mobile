@@ -36,7 +36,7 @@ class sendmoneypojo {
 }
 
 class Paymentdetails {
-  String senderId;
+  int senderId;
   int receiverId;
   int amountRequested;
   Object amountPaid;

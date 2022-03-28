@@ -124,4 +124,9 @@ class Network{
   static String versioncheck = "versioncheck";
   static String admincommission = "admincommission";
   static String payment = "http://kontribute.biz/paywithpaypal_mob/";
+  static String saveHyperwallet = "updatehyperwalletid";
+
+  static String addbankdetails='addbankdetails';
+
+  static String getbankdetails='getbankdetails';
 }

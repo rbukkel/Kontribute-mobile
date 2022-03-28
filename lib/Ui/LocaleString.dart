@@ -343,6 +343,12 @@ class LocaleString extends Translations {
           'pleaseenterfirstname' : 'Please enter first name!',
           'youdonothaveenoughbalance' : 'You Do not Have Enough Balance!',
           'amountrequired' : 'Amount Required!',
+          'hyperwalletid' : 'HyperWallet Id',
+          'updatebank' : 'Update Bank',
+          'bankdetails' : 'Bank Details',
+
+
+
         },
         'ar_SA': {
           'home': 'الصفحة الرئيسية',
@@ -684,6 +690,9 @@ class LocaleString extends Translations {
           'pleaseenterfirstname' : 'الرجاء إدخال الاسم الأول',
           'youdonothaveenoughbalance' : 'ليس لديك رصيد كافي!',
           'amountrequired' : 'كمية مطلوبة!',
+          'hyperwalletid' : 'معرف محفظة هايبر',
+          'updatebank' : 'تحديث البنك',
+          'bankdetails' : 'التفاصيل المصرفية',
         },
       };
 }

@@ -1715,7 +1715,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
     Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'id': senddetailsPojo.result.id.toString(),
-      'sender_id': userid.toString(),
+      'sender_id': senddetailsPojo.result.senderId.toString(),
       'price_money': price.toString(),
       'updated_price': totalamount.toString(),
     };
@@ -1739,9 +1739,7 @@ class viewdetail_sendreceivegiftState extends State<viewdetail_sendreceivegift> 
             callNext(
                 payment(
                     data: moneypojo.paymentId.toString(),
-                    amount:moneypojo.
-
-                    paypalAmount.toString(),
+                    amount:moneypojo.paypalAmount.toString(),
                     coming:"gift",
                     backto:"GIFT"
                 ), context);

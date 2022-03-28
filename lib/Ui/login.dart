@@ -770,8 +770,7 @@ class loginState extends State<login>{
     };
     print("Social: "+data.toString());
     var jsonResponse = null;
-    var response =
-    await http.post(Network.BaseApi + Network.socailLogin, body: data);
+    var response = await http.post(Network.BaseApi + Network.socailLogin, body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if (jsonResponse["status"] == false) {

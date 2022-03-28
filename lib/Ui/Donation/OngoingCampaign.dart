@@ -1688,8 +1688,7 @@ class OngoingCampaignState extends State<OngoingCampaign> {
           Future.delayed(Duration(seconds: 1),()
           {
             callNext(
-                payment(
-                    data: jsonDecode(updateval)["data"]["id"].toString(),
+                payment(data: jsonDecode(updateval)["data"]["id"].toString(),
                     amount:commisionamount.toString(),
                     coming:"dnt",
                     backto:"Donation"

@@ -83,9 +83,10 @@ dependencies:
   package_info_plus: ^0.6.4
   store_redirect: ^1.0.1
   flutter_inappwebview: ^4.0.0
-  webview_flutter: ^1.0.7
+  webview_flutter: ^0.3.24
   virtual_keyboard_multi_language: ^0.2.2
   country_code_picker: ^1.7.0
+  flutter_local_notifications: ^1.5.0+1
 
 
 dev_dependencies:

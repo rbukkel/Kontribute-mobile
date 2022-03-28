@@ -17,39 +17,45 @@ import 'package:kontribute/utils/screen.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class payment extends StatefulWidget{
+class payment extends StatefulWidget {
   final String data;
   final String amount;
   final String coming;
   final String backto;
-  const payment({Key key, @required this.data, @required this.amount, @required this.coming, @required this.backto}) : super(key: key);
+
+  const payment(
+      {Key key,
+      @required this.data,
+      @required this.amount,
+      @required this.coming,
+      @required this.backto})
+      : super(key: key);
 
   @override
-  _payment createState() => _payment ();
+  _payment createState() => _payment();
 }
 
-class _payment  extends State<payment>{
+class _payment extends State<payment> {
   var isFlutterInAppWebViewReady = false;
+
 // InAppWebViewController _webViewController;
- Completer<WebViewController> _controller = Completer<WebViewController>();
- bool internet = false;
- String data1;
- String amount1;
- String coming1;
- String backto1;
- String userid;
+  Completer<WebViewController> _controller = Completer<WebViewController>();
+  bool internet = false;
+  String data1;
+  String amount1;
+  String coming1;
+  String backto1;
+  String userid;
+  String url;
 
   @override
   void initState() {
     super.initState();
-    SharedUtils.readloginId("UserId").then((val) {
-      print("UserId: " + val);
-      userid = val;
-      print("Login userid: " + userid.toString());
-    });
-    Internet_check().check().then((intenet) {
-      if (intenet != null && intenet)
-      {
+
+    setState(() {
+      SharedUtils.readloginId("UserId").then((val) {
+        print("UserId: " + val);
+        userid = val;
         data1 = widget.data;
         amount1 = widget.amount;
         coming1 = widget.coming;
@@ -58,16 +64,31 @@ class _payment  extends State<payment>{
         print("receiveramount1: " + amount1.toString());
         print("receivercoming1: " + coming1.toString());
         print("receiverbackto1: " + backto1.toString());
-        print("Payment details:-"+Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid);
+        print("UserId: " + userid);
+        print("Payment details:-" +
+            Network.payment +
+            amount1 +
+            "/" +
+            data1 +
+            "/" +
+            coming1 +
+            "/" +
+            userid);
         setState(() {
-          internet = true;
+          url = Network.payment +
+              amount1 +
+              "/" +
+              data1 +
+              "/" +
+              coming1 +
+              "/" +
+              userid;
+          print('url is : '+url);
         });
-      } else {
-        setState(() {
-          internet = false;
-        });
-        errorDialog('nointernetconnection'.tr);
-      }
+
+      });
+
+
     });
   }
 
@@ -134,8 +155,7 @@ class _payment  extends State<payment>{
 
   @override
   Widget build(BuildContext context) {
-    print(Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid);
-  //  print("Payment Url:-"+Network.BaseApiPayment+'paymentnid='+'D'+details.paymentnid+'&cust_phone='+details.custPhone+'&amount='+details.amount.toString()+'&orderno='+'EZ'+details.orderno.toString()+'&paymentdescription='+details.paymentdescription+'&cust_name='+details.custName+'&cust_email='+details.custEmail);
+    //  print("Payment Url:-"+Network.BaseApiPayment+'paymentnid='+'D'+details.paymentnid+'&cust_phone='+details.custPhone+'&amount='+details.amount.toString()+'&orderno='+'EZ'+details.orderno.toString()+'&paymentdescription='+details.paymentdescription+'&cust_name='+details.custName+'&cust_email='+details.custEmail);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -150,77 +170,73 @@ class _payment  extends State<payment>{
         ),
         body: Builder(builder: (BuildContext context) {
           return
+
+
             WebView(
-            initialUrl: Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid,
+            initialUrl:  Network.payment +
+                amount1.toString() +
+                "/" +
+                data1 +
+                "/" +
+                coming1 +
+                "/" +
+                userid,
             javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) => _controller.complete(webViewController),
-
-            onPageFinished: (String url) {
-              /*if (url == Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid) {
+            onWebViewCreated: (WebViewController webViewController) =>
+                _controller.complete(webViewController),
+            /*onPageFinished: (String url) {
+              *//*if (url == Network.payment+amount1+"/"+data1+"/"+coming1+"/"+userid) {
                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
-              }*/
-
-
-
-
-            },
-
-
+              }*//*
+            },*/
             navigationDelegate: (NavigationRequest request) {
-              print('request 1 : '+request.toString());
-              print('request  2 :'+request.url.toString());
+              print('request 1 : ' + request.toString());
+              print('request  2 :' + request.url.toString());
 
-             // if (request.url.startsWith('http://kontribute.biz/paypal_status')) {
-              if (request.url.startsWith('https://kontribute.biz/paypal_status')) {
-
-
-
-
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
-
-
-
-
+              // if (request.url.startsWith('http://kontribute.biz/paypal_status')) {
+              if (request.url
+                  .startsWith('https://kontribute.biz/paypal_status')) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => HomeScreen()));
 
                 Fluttertoast.showToast(
-                        msg: "Payment Successful",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1
-                    );
+                    msg: "Payment Successful",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1);
 
-
-               /*   Future.delayed(Duration(seconds: 1),()
+                /*   Future.delayed(Duration(seconds: 1),()
                     {
                       Navigator.of(context).pop();
                     });*/
 
-
               }
 
-             // else if (request.url.startsWith('http://kontribute.biz/paypal_statusfail'))
-              else if (request.url.startsWith('https://kontribute.biz/paypal_statusfail'))
-
-
-
-              {
+              // else if (request.url.startsWith('http://kontribute.biz/paypal_statusfail'))
+              else if (request.url
+                  .startsWith('https://kontribute.biz/paypal_statusfail')) {
                 Fluttertoast.showToast(
                     msg: "Payment Fail",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1
-                );
-                Future.delayed(Duration(seconds: 1),()
-                {
+                    timeInSecForIosWeb: 1);
+
+
+           /*
+                Future.delayed(Duration(seconds: 1), () {
                   Navigator.of(context).pop();
                 });
+                */
+
+
 
               }
               return NavigationDecision.navigate;
             },
           );
-        })
-    );
+        }));
 
     /*  Scaffold(
       body: Container(
@@ -367,7 +383,5 @@ class _payment  extends State<payment>{
       ),
 
     );*/
-
   }
-
 }
