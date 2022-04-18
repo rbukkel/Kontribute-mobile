@@ -258,6 +258,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void getData(int id) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
     Map data = {
       'userid': id.toString(),
     };
@@ -266,6 +267,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     http.Response response =
         await http.post(Network.BaseApi + Network.get_profiledata, body: data);
     if (response.statusCode == 200) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       jsonResponse = json.decode(response.body);
       val = response.body; //store response as string
       if (jsonDecode(val)["success"] == false) {
@@ -367,15 +369,23 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   image_value = true;
                   _loading = true;
                 }
+                else {
+                  image_value = true;
+                }
               });
             }
+
+
+
+
+
             else{
               if (!loginResponse.resultPush.profilePic.startsWith("https://"))
               {
                 setState(() {
                   image = Network.BaseApiprofile+loginResponse.resultPush.profilePic;
                   if (image.isNotEmpty) {
-                    image_value = true;
+                    imageUrl = true;
                     _loading = true;
                   }
                 });
@@ -385,12 +395,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 setState(() {
                   image = loginResponse.resultPush.profilePic;
                   if (image.isNotEmpty) {
-                    image_value = true;
+                    imageUrl = true;
                     _loading = true;
                   }
                 });
               }
             }
+
+
+
+
 
 
           });
@@ -399,6 +413,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         }
       }
     } else {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       errorDialog(jsonDecode(val)["message"]);
     }
   }
@@ -1636,8 +1651,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                             postalcodeController.text,
                                             cityController.text,
                                             addressController.text,
-                                            statesController.text,
-                                            hyperwalletuserid
+                                            statesController.text
                                         );
                                       }
                                       else{
@@ -1655,8 +1669,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                             postalcodeController.text,
                                             cityController.text,
                                             addressController.text,
-                                            statesController.text,
-                                            hyperwalletuserid
+                                            statesController.text
                                         );
                                       }
 
@@ -2043,7 +2056,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
 
-  void createhyperawalletuser() async {
+ /* void createhyperawalletuser() async {
     print("Api Call");
     Dialogs.showLoadingDialog(context, _keyLoader);
 
@@ -2157,7 +2170,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         timeInSecForIosWeb: 1,
       );
     }
-  }
+  }*/
 
   void updateprofile(
       String user,
@@ -2173,8 +2186,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       String postalcode,
       String city,
       String address,
-      String state,
-      String hyperwalletuser_id
+      String state
       ) async {
     var jsonData = null;
     Dialogs.showLoadingDialog(context, _keyLoader1);
@@ -2190,7 +2202,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     request.fields["current_country"] = country;
     request.fields["mobile_token"] = tken;
     request.fields["country_code"] = code;
-    request.fields["hyperwallet_id"] = hyperwalletuser_id;
+
     request.fields["city"] = city;
     request.fields["addressLine1"] = address;
     request.fields["stateProvince"] = state;

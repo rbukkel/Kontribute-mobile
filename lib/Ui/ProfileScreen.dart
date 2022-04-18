@@ -61,7 +61,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         SharedUtils.readloginId("UserId").then((val) {
           print("UserId: " + val);
           userid = val;
-          gethyperwalletid(userid);
+
           getData(userid);
           print("Login userid: " + userid.toString());
         });
@@ -277,8 +277,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                   });
                 }
             }
+
+            gethyperwalletid(userid);
           });
         } else {
+          gethyperwalletid(userid);
           errorDialog(loginResponse.message);
 
         }
@@ -370,7 +373,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                       Stack(
                         children: [
                           imageUrl == false
-                              ? Container(
+                              ?
+
+                          Container(
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 2),
                                   width: 120,
@@ -835,7 +840,12 @@ class ProfileScreenState extends State<ProfileScreen> {
 
                                 Container(
                                     alignment: Alignment.center,
-                                    width: SizeConfig.blockSizeHorizontal * 25,
+                                    padding: EdgeInsets.only(
+                                        left:SizeConfig.blockSizeVertical * 2,
+                                        right:SizeConfig.blockSizeVertical * 2,
+
+
+                                    ),
                                     height: SizeConfig.blockSizeVertical * 5,
                                     margin: EdgeInsets.only(
                                         top: SizeConfig.blockSizeVertical * 3,
@@ -1118,6 +1128,9 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> gethyperwalletid(String userid) async {
 
+
+    Dialogs.showLoadingDialog(context, _keyLoader);
+
     print("Api Call");
     Map data = {
       "userid":userid,
@@ -1131,6 +1144,9 @@ class ProfileScreenState extends State<ProfileScreen> {
     print("Response hyperwallet:-" + jsonResponse.toString());
 
     if (response.statusCode == 200) {
+
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
       if (jsonResponse["status"] == false) {
 
 
@@ -1142,11 +1158,17 @@ class ProfileScreenState extends State<ProfileScreen> {
         );
 
         print("Response:-" + jsonResponse.toString());
-      } else {
+      }
+
+
+      else {
         if (jsonResponse != null) {
-          print("Response:-" + jsonResponse.toString());
+
+
+          print("Response  Hyperwallet:-" + jsonResponse.toString());
 
           setState(() {
+
             _gethyperwalletPojo=GethyperwalletPojo.fromJson(jsonResponse);
             print("Get Hyperwallet user id:-"+_gethyperwalletPojo.data.hyperwalletId);
             /*
@@ -1174,6 +1196,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       }
     } else {
 
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
       print("Response:-" + jsonResponse.toString());
 
